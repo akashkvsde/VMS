@@ -1,0 +1,305 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col">
+      <h6 class="mt-4 text-blue" style="font-weight: 600;">
+        VEHICLE MAINTENANCE <span class="text-danger">MANAGER</span>
+      </h6>
+    </div>
+  </div>
+
+  <div class="card p-2 mt-2">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="row mt-2">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="vehicle_id">Select Vehicle</label>
+            <select class="form-select form-control" formControlName="vehicle_id">
+              <option value="">--Select--</option>
+              <option *ngFor="let data of all_veichels" [value]="data.vehicle_id">
+                {{data.vehicle_name}}, {{data.vehicle_rto_no}}
+              </option>
+            </select>
+            <div *ngIf="myForm.get('vehicle_id')?.touched && myForm.get('vehicle_id')?.invalid">
+              <small *ngIf="myForm.get('vehicle_id')?.errors?.['required']" class="text-danger">
+                Vehicle is required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="driver_id">Select Driver</label>
+            <select class="form-select form-control" formControlName="driver_id">
+              <option value="">--Select--</option>
+              <option *ngFor="let data of all_drivers" [value]="data.user_id">
+                {{data.user_name}}
+              </option>
+            </select>
+            <div *ngIf="myForm.get('driver_id')?.touched && myForm.get('driver_id')?.invalid">
+              <small *ngIf="myForm.get('driver_id')?.errors?.['required']" class="text-danger">
+                Driver is required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="authority_id">Select Authority</label>
+            <select class="form-select form-control" formControlName="authority_id">
+              <option value="">--Select--</option>
+              <option *ngFor="let data of all_authority" [value]="data.user_id">
+                {{data.user_name}}
+              </option>
+            </select>
+            <div *ngIf="myForm.get('authority_id')?.touched && myForm.get('authority_id')?.invalid">
+              <small *ngIf="myForm.get('authority_id')?.errors?.['required']" class="text-danger">
+                Authority is required.
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="maintenance_problems_id">Select Problem</label>
+            <select class="form-select form-control" formControlName="maintenance_problems_id">
+              <option value="">--Select--</option>
+              <option *ngFor="let data of all_problems" [value]="data.vehicle_problems_id">
+                {{data.vehicle_problems_name}}
+              </option>
+            </select>
+            <div *ngIf="myForm.get('maintenance_problems_id')?.touched && myForm.get('maintenance_problems_id')?.invalid">
+              <small *ngIf="myForm.get('maintenance_problems_id')?.errors?.['required']" class="text-danger">
+                Problem is required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="maintenance_problems_other_details">Other Details</label>
+            <input type="text" class="form-control" formControlName="maintenance_problems_other_details" placeholder="Other Details" style="max-width: 400px;">
+            <div *ngIf="myForm.get('maintenance_problems_other_details')?.touched && myForm.get('maintenance_problems_other_details')?.invalid">
+              <small *ngIf="myForm.get('maintenance_problems_other_details')?.errors?.['required']" class="text-danger">
+                Other details are required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="col-md-3">
+          <div class="form-group">
+            <label for="maintenance_service_center_name">Service Center</label>
+            <div class="input-group">
+              <select class="form-select" formControlName="maintenance_service_center_name">
+                <option value="">--Select--</option>
+                <option *ngFor="let data of service_station" [value]="data.garage_id">
+                  {{data.garage_name}}, {{data.location}}
+                </option>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#exampleModal">+Add</button>
+              </div>
+            </div>
+            <div *ngIf="myForm.get('maintenance_service_center_name')?.touched && myForm.get('maintenance_service_center_name')?.invalid">
+              <small *ngIf="myForm.get('maintenance_service_center_name')?.errors?.['required']" class="text-danger">
+                Service center is required.
+              </small>
+            </div>
+          </div>
+        </div> -->
+
+<!------changing here -->
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="maintenance_service_center_name">Service Center</label>
+              <div class="input-group">
+                <select class="custom-select" id="inputGroupSelect04" formControlName="maintenance_service_center_name">
+                  <option value="">--Select--</option>
+                <option *ngFor="let data of service_station" [value]="data.garage_id">
+                  {{data.garage_name}}, {{data.location}}
+                </option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#exampleModal">+Add</button>
+                </div>
+              </div>
+
+              <div *ngIf="myForm.get('maintenance_service_center_name')?.touched && myForm.get('maintenance_service_center_name')?.invalid">
+                <small *ngIf="myForm.get('maintenance_service_center_name')?.errors?.['required']" class="text-danger">
+                  Service center is required.
+                </small>
+              </div>
+          </div>
+        </div>
+<!------changing here -->
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group d-flex">
+            <label for="maintenance_start_date">Select Date</label>
+            <input type="date" class="form-control" formControlName="maintenance_start_date" style="max-width: 400px;">
+            <div *ngIf="myForm.get('maintenance_start_date')?.touched && myForm.get('maintenance_start_date')?.invalid">
+              <small *ngIf="myForm.get('maintenance_start_date')?.errors?.['required']" class="text-danger">
+                Date is required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group d-flex">
+            <label for="exp_amt">Expected Amount</label>
+            <input type="number" class="form-control" formControlName="exp_amt" style="max-width: 400px;" placeholder="--Expected amount--">
+            <div *ngIf="myForm.get('exp_amt')?.touched && myForm.get('exp_amt')?.invalid">
+              <small *ngIf="myForm.get('exp_amt')?.errors?.['required']" class="text-danger">
+                Expected Amount is required.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="mx-2" [disabled]="myForm.invalid">Submit</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-----------modal----------->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Service Center</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <form [formGroup]="serviceForm" (ngSubmit)="onSubmitService()">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="garage_name">Service Station Name</label>
+                  <input
+                    type="text"
+                    id="garage_name"
+                    class="form-control"
+                    placeholder="Enter Service Station Name"
+                    formControlName="garage_name"
+                    style="max-width: 400px;"
+                  />
+                  <div *ngIf="serviceForm.get('garage_name')?.touched && serviceForm.get('garage_name')?.invalid">
+                    <small *ngIf="serviceForm.get('garage_name')?.errors?.['required']" class="text-danger">
+                      Service Station Name is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="location">Service Station Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    class="form-control"
+                    placeholder="Enter Location"
+                    formControlName="location"
+                    style="max-width: 400px;"
+                  />
+                  <div *ngIf="serviceForm.get('location')?.touched && serviceForm.get('location')?.invalid">
+                    <small *ngIf="serviceForm.get('location')?.errors?.['required']" class="text-danger">
+                      Location is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="garage_owner">Service Station Owner Name</label>
+                  <input
+                    type="text"
+                    id="garage_owner"
+                    class="form-control"
+                    placeholder="Enter Owner Name"
+                    formControlName="garage_owner"
+                    style="max-width: 400px;"
+                  />
+                  <div *ngIf="serviceForm.get('garage_owner')?.touched && serviceForm.get('garage_owner')?.invalid">
+                    <small *ngIf="serviceForm.get('garage_owner')?.errors?.['required']" class="text-danger">
+                      Owner Name is required
+                    </small>
+                    <small *ngIf="serviceForm.get('garage_owner')?.errors?.['pattern']" class="text-danger">
+                      Owner Name can only contain letters and spaces
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="contact_person">Contact Person</label>
+                  <input
+                    type="text"
+                    id="contact_person"
+                    class="form-control"
+                    placeholder="Enter Contact Person"
+                    formControlName="contact_person"
+                    style="max-width: 400px;"
+                  />
+                  <div *ngIf="serviceForm.get('contact_person')?.touched && serviceForm.get('contact_person')?.invalid">
+                    <small *ngIf="serviceForm.get('contact_person')?.errors?.['required']" class="text-danger">
+                      Contact Person is required
+                    </small>
+                    <small *ngIf="serviceForm.get('contact_person')?.errors?.['pattern']" class="text-danger">
+                      Contact Person can only contain letters and spaces
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="contact_no">Contact No</label>
+                  <input
+                    type="text"
+                    id="contact_no"
+                    class="form-control"
+                    placeholder="Enter Contact Number"
+                    formControlName="contact_no"
+                    style="max-width: 400px;"
+                  />
+                  <div *ngIf="serviceForm.get('contact_no')?.touched && serviceForm.get('contact_no')?.invalid">
+                    <small *ngIf="serviceForm.get('contact_no')?.errors?.['required']" class="text-danger">
+                      Contact Number is required
+                    </small>
+                    <small *ngIf="serviceForm.get('contact_no')?.errors?.['pattern']" class="text-danger">
+                      Contact Number must be exactly 10 digits
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

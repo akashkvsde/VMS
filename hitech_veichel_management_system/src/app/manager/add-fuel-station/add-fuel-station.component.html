@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-blue" style="font-weight: 600;">ADD FILLING STATION <span class="text-danger">BY MANAGER</span></h6>
+       
+        </div>
+    </div>
+
+<div class="card p-2">
+<form #stationForm="ngForm" (ngSubmit)="onSubmit(stationForm)" novalidate>
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="form-group d-flex">
+                <label for="exampleInputEmail1">Filling Station</label>
+               
+                <input type="text" class="form-control me-4" placeholder="Enter Filling Station Name" style="max-width: 400px;" [(ngModel)]="addStation.fuel_station_name " name="fuel_station_name" required>
+                <div *ngIf="stationForm.submitted && !addStation.fuel_station_name " class="text-danger">Filling Station required</div>
+              </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group d-flex">
+                <label for="exampleInputEmail1">Location</label>
+               
+                <input type="text" class="form-control me-4" placeholder="Enter Location" style="max-width: 400px;" [(ngModel)]="addStation.location " name="location" required>
+                <div *ngIf="stationForm.submitted && !addStation.location " class="text-danger">Location required</div>
+              </div>
+        </div>
+            <div>
+                <button type="submit">Submit</button>
+            </div>
+    </div>
+  </form>
+</div>
+
+<div class="row mt-2">
+    <div class="col">
+       <h6 class="mt-4 text-blue" style="font-weight: 600;">VIEW FILLING STATION DETAILS</h6>
+   
+    </div>
+</div>
+
+<div class="card">
+    
+<div class="row mt-2">
+    <div class="col">
+        <div class="table-responsive table-responsive-stack">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sl. No.</th>
+                        <th>Filling Station Name</th>
+
+                        <th>Location</th>
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let st of stations; let i=index">
+                        <td data-label="Sl. No.">{{i+1}}</td>
+                        <td data-label="Filling Station Name">{{st.fuel_station_name}}</td>
+                        <td data-label="Location">{{st.location}}</td>
+                      
+                        <td data-label="Action"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="editStation(st)"><i class="fas fa-edit"></i></button></td>
+                    </tr>
+                   
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="stationsForm" (ngSubmit)="handleSubmit()">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1">Filling Station Name</label>
+                        <input type="text" class="form-control me-4" style="max-width: 400px;" formControlName="fuel_station_name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1">Location</label>
+               
+                <input type="text" class="form-control me-4" style="max-width: 400px;" formControlName="location">
+                    </div>
+              </div>
+     
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" >Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

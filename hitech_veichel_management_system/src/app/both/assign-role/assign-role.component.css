@@ -1,0 +1,10 @@
+.x{
+    background-color: #274472;
+    color: #fff;
+}
+
+.btn{
+    width: 60px !important;
+    font-size: 11px !important;
+    text-align: center;
+}

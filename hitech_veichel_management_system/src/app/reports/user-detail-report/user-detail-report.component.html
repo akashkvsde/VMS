@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col">
+      <h5 class="mt-4 text-blue" style="font-weight: 600">
+        <b><span class="text-primary">USER DETAILS </span></b>
+        <b><span class="text-danger">REPORT</span></b>
+      </h5>
+    </div>
+  </div>
+
+  <div class="row mt-2" class="vehicle">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="roleSelect">Select Role</label>
+        <select
+          class="form-select form-control"
+          #role
+          (change)="fetchUsersById(role.value)">
+          <option value="" disabled selected>Select a role</option>
+          <option *ngFor="let roles of users" [value]="roles.role_id + '-' + roles.role_name">
+            {{ roles.role_name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm printcsv xp mt-2" align="right">
+    <a class="btn btn-md btn-basic" (click)="printDiv()" id="icon"
+      ><i class="fas fa-print"></i
+    ></a>
+    <!-- <a> <i class="fas fa-file-excel"></i></a> -->
+  </div>
+  <div class="card p-2 mt-2">
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive table-responsive-stack">
+ <p *ngIf="data.length != 0">
+            User Role :  {{role_name}}
+          </p>
+      <table class="table" *ngIf="data.length > 0">
+            <thead>
+              <tr>
+                <th>Sl. No.</th>
+                <th>Name</th>
+                <th>User Id</th>
+                <th>Mobile No.</th>
+                <th>WP No.</th>
+                <th>DL No.</th>
+                <th>Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let role of paginatedData; let i = index">
+                <td data-label="">{{ i + 1 + (currentPage - 1) * itemsPerPage }}</td>
+                <td data-label="">{{ role.user_name }}</td>
+                <td data-label="">{{ role.user_login_id }}</td>
+                <td data-label="">{{ role.user_1st_mobile_no }}</td>
+                <td data-label="">{{ role.user_wp_no }}</td>
+                <td data-label="">{{ role.aadhar_no }}</td>
+                <td class="table-cell" data-label="">{{ role.address }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="data.length === 0 && noDataMessage" class="text-danger text-center">
+            {{ noDataMessage }}
+          </div>
+          <!-- PAGINATION -->
+          <div *ngIf="data.length > itemsPerPage" class="pagination-controls d-flex justify-content-end mt-3">
+            <button class="btn btn-sm btn-link me-2" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+            <button class="btn btn-sm btn-link" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= data.length">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

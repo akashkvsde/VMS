@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="row mt-2">
+      <div class="col">
+          <h5 class="mt-4 text-blue" style="font-weight: 600;"><b><span class="text-primary">POLLUTION </span></b>
+              <b><span class="text-danger">REPORT</span></b>
+          </h5>
+      </div>
+  </div>
+  <div class="row mt-2 vehicle">
+      <div class="col-md-3">
+          <div class="form-group">
+              <label for="roleSelect">Select Vehicle</label>
+              <select class="form-select form-control" #pollute (change)="getPoll(pollute.value)">
+                <option value="" disabled selected>Select a vehicle</option>
+                <option  *ngFor="let vehi of vehicles" value="{{vehi.vehicle_id}}">{{vehi.vehicle_name}} - {{vehi.vehicle_rto_no}}</option>
+                </select>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm printcsv xp mt-2" align="right">
+    <a class="" (click)="printDiv()" id="icon"><i class="fas fa-print"></i></a>
+     </div>
+<div class="card p-2 mt-2">
+  <div class="row">
+    <div class="col">
+      <div class="table-responsive table-responsive-stack">
+        <!-- Show table if data is available -->
+        <table class="table" style="font-size: small;" *ngIf="data.length > 0; else noDataTemplate">
+          <thead>
+            <tr>
+              <th>Sl. No.</th>
+              <th>Vehicle Name</th>
+              <th>Vehicle No.</th>
+              <th>Pollution No.</th>
+              <th>Pollution Start Date</th>
+              <th>Pollution End Date</th>
+              <th class="demo">Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pollution of paginatedData; index as i">
+              <td data-label="Sl. No.">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td data-label="Vehicle Name">{{ pollution.vehicle.vehicle_name }}</td>
+              <td data-label="Vehicle No.">{{ pollution.vehicle.vehicle_rto_no }}</td>
+              <td data-label="Vehicle No.">{{ pollution.vehicle_pollution_puc_no }}</td>
+              <td data-label="Start Date">{{ pollution.vehicle_pollution_start_date }}</td>
+              <td data-label="End Date">{{ pollution.vehicle_pollution_end_date }}</td>
+              <td class="demo" data-label="Receipt Download">
+                <a [href]="fileurl + '/' + pollution.vehicle_pollution_puc_file" target="_blank" [attr.download]="fileurl + '/' + pollution.vehicle_pollution_puc_file">
+                  <button id="icon" class="btn btn-primary btn-xs">
+                    <i class="fas fa-download"></i>
+                  </button>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #noDataTemplate>
+          <div class="text-danger text-center" *ngIf="!noDataMessage">
+            No data available.
+          </div>
+        </ng-template>
+        <div *ngIf="noDataMessage" class="text-danger text-center">{{ noDataMessage }}</div>
+
+      <!-- PAGINATION -->
+      <div *ngIf="data.length > itemsPerPage" class="pagination-controls d-flex justify-content-end mt-3">
+        <button class="btn btn-sm btn-link me-2" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <button class="btn btn-sm btn-link" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= data.length">Next</button>
+      </div>
+    </div>
+
+      </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-dark" style="font-weight: 600;">VEHICLE FUEL VOUCHER ASSIGN <span class="text-danger">(DRIVER)</span></h6>
+        </div>
+    </div>
+  
+    <div class="row justify-content-center xp mt-2" >
+        <div class="col-md-12">
+            <div class="card p-5">
+                <div class="row">
+                  <div class="col-md-3">
+                        <div class="form-group d-flex">
+                            <label for="exampleInputEmail1">Start Date:</label>
+                            <input type="date" class="form-control me-4" style="max-width: 400px; margin-left: 10px;" #startDate (change)="onDateChange(startDate.value)">
+                          </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+  
+    </div>
+  
+    <div class="row mt-2">
+        <div class="col">
+            <div class="table-responsive table-responsive-stack">
+                <table class="table">
+                    <thead *ngIf="!message">
+                        <tr>
+                            <th>Sl. No.</th>
+                            <th>Filling Date</th>
+                            <th>Manager Name</th>
+                            <th>Driver Name</th>
+                            <th>Veicle Name</th>
+                            <th>Veicle No</th>
+                            <th>Filling Quantity</th>
+                            <th>Fuel Station Name</th>
+                            <th>Location</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of veicle_moment_fetch_data; let i = index">
+                            <td data-label="Sl. No.">{{i + 1}}</td>
+                            <td data-label="Filling Date">{{data.filling_date || 'NA'}}</td>
+                            <td data-label="Manager Name">{{data.entry_by?.user_name || 'NA'}}</td>
+                            <td data-label="Driver Name">{{data.driver?.user_name || 'NA'}}</td>
+                            <td data-label="Vehicle Name">{{data.vehicle?.vehicle_name || 'NA'}}</td>
+                            <td data-label="Vehicle No">{{data.vehicle?.vehicle_name || 'NA'}}</td>
+                            <td data-label="Filling Quantity">{{data.filling_quantity || 'NA'}}</td>
+                            <td data-label="Fuel Station Name">{{data.fuel_station?.fuel_station_name || 'NA'}}</td>
+                            <td data-label="Location">{{data.fuel_station?.location || 'NA'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  <h5 class="d-flex align-item-center justify-content-center">{{message}} </h5>
+   
+  
+  </div>
+  
+  

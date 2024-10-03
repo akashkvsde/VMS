@@ -1,0 +1,61 @@
+
+
+ .sec-two{
+  display: none !important;
+}
+@media(max-width:400px){
+  h5{
+    font-size: 12px;
+  }
+
+  p{
+    font-size: 10px;
+  }
+
+  .sec-one{
+   display: none;
+  }
+
+  .sec-two{
+    display: block !important;
+  }
+}
+
+
+
+ /* Styles for the moving vehicle animation */
+ .vehicle-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 100px;
+}
+
+.moving-vehicle {
+  position: absolute;
+  width: 100px;
+  bottom: 0;
+  animation: moveVehicle 10s linear infinite;
+}
+
+@keyframes moveVehicle {
+  0% {
+    right: -100px;
+  }
+  100% {
+    right: 100%;
+  }
+}
+
+@media(max-width:400px) {
+  h3, .sx {
+    font-size: 18px;
+    margin-bottom: 12px !important;
+  }
+  .btn, label {
+    font-size: 14px;
+  }
+  .shadow-sm {
+    margin-top: 50px !important;
+  }
+}

@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="row mt-2">
+      <div class="col">
+         <h6 class="mt-4 text-dark" style="font-weight: 600;">FUEL FILLING <span class="text-danger">REPORT</span></h6>
+      </div>
+  </div>
+
+  <div class="row justify-content-center xp mt-2" class="vehicle" >
+      <div class="col-md-12">
+          <div class="card p-5">
+              <div class="row">
+
+                  <div class="col-md-3 mx-3">
+                      <div class="form-group d-flex">
+                          <label for="exampleInputEmail1">From:</label>
+                          <input type="date" class="form-control" [(ngModel)]="fdate" style="max-width: 400px;">
+
+                        </div>
+                  </div>
+
+                  <div class="col-md-3 mx-2">
+                      <div class="form-group d-flex">
+                          <label for="exampleInputEmail1">To:</label>
+                          <input type="date" class="form-control"  [(ngModel)]="tdate" style="max-width: 400px;">
+                         </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="form-group d-flex">
+                        <select class="form-select form-control"  [(ngModel)]="selectedVehicleNo">
+                              <option value="">--Select Vehicle No--</option>
+                              <option  *ngFor="let vehi of vehicles" value="{{vehi.vehicle_id}}">{{vehi.vehicle_name}} - {{vehi.vehicle_rto_no}}</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div>
+                      <button class="mx-2" (click)="getFillingData()">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+<div class="col-sm printcsv xp mt-5" align="right">
+      <a (click)="printsDiv()" id="icon" ><i class="fas fa-print"></i></a>
+</div>
+
+<div class="col-md-3 box" >
+<div class="form-group d-flex">
+  <select class="form-select form-control" [(ngModel)]="selectedOwner" (change)="getDataByOwnerName()">
+        <option value="">--Select Owner Name--</option>
+        <option  *ngFor="let own of owners" value="{{own.vehicle_owner_id}}">{{own.vehicle_owner_name}}</option>
+    </select>
+</div>
+</div>
+<div class="card p-2 mt-2">
+  <div class="row mt-2">
+    <div class="col">
+      <div class="table-responsive table-responsive-stack">
+        <p>
+          From : {{ selectedFromDate }} &nbsp; &nbsp; &nbsp; To : {{ selectedToDate }}
+        </p>
+        <table class="table" *ngIf="!showNoDataMessage" style="font-size: small;">
+          <thead>
+            <tr>
+              <th>Sl. No.</th>
+              <th>Vehicle Name</th>
+              <th>Owner Name</th>
+              <th>Vehicle No.</th>
+              <th>Driver</th>
+              <th>Manager</th>
+              <th>Filling Date</th>
+              <th>Filling Station</th>
+              <th>KM Reading</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+              <th class="demo">Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fill of paginatedData; let i = index">
+              <td data-label="Sl. No.">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td data-label="Vehicle Name">{{ fill.vehicle.vehicle_name || 'NA' }}</td>
+              <td data-label="Vehicle Name">{{ fill.vehicle.owner.vehicle_owner_name || 'NA' }}</td>
+              <td data-label="Vehicle No.">{{ fill.vehicle.vehicle_rto_no || 'NA' }}</td>
+              <td data-label="Driver">{{ fill.driver.user_name || 'NA' }}</td>
+              <td data-label="Manager">{{ fill.entry_by.user_name || 'NA' }}</td>
+              <td data-label="Filling Date">{{ fill.filling_date || 'NA' }}</td>
+              <td data-label="Filling Station">{{ fill.fuel_station.fuel_station_name || 'NA' }}</td>
+              <td data-label="KM Reading">{{ fill.last_km_reading || 'NA' }}</td>
+              <td data-label="Quantity">{{ fill.filling_quantity || 'NA' }}</td>
+              <td data-label="Amount">{{ fill.filling_amount || 'NA' }}</td>
+              <td class="demo" data-label="Receipt Download">
+                <a [href]="fileurl + '/' + fill.vehicle_fill_puc_file" target="_blank" [attr.download]="fileurl + '/' + fill.vehicle_fill_puc_file">
+                  <button id="icon" class="btn btn-primary btn-xs">
+                    <i class="fas fa-download"></i>
+                  </button>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="showNoDataMessage" class="text-danger text-center">
+          No Fuel filling data available for the selected criteria.
+        </div>
+      </div>
+
+      <!-- PAGINATION -->
+      <div *ngIf="filling.length > itemsPerPage" class="pagination-controls d-flex justify-content-end mt-3">
+        <button class="btn btn-sm btn-link me-2" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+        <button class="btn btn-sm btn-link" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filling.length">Next</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+

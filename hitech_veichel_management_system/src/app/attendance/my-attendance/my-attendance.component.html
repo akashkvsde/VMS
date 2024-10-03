@@ -1,0 +1,129 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-blue" style="font-weight: 600;">MY <span class="text-danger">ATTENDANCE</span></h6>
+           <div class="btn-group my-2">
+            <button 
+              type="button" 
+              class="btn" 
+              [ngClass]="{'btn-primary': selectedButton === 'daily', 'btn-secondary': selectedButton !== 'daily'}" 
+              (click)="setButton('daily')" 
+              style="font-size: 11px; font-weight: 600;" (click)="hideDaily()">
+              DAILY
+            </button>
+            
+            <button 
+              type="button" 
+              class="btn" 
+              [ngClass]="{'btn-primary': selectedButton === 'over', 'btn-secondary': selectedButton !== 'over'}" 
+              (click)="setButton('over')" 
+              style="font-size: 11px; font-weight: 600;" (click)="hideOt()">
+              OVER
+            </button>
+          </div>
+          
+        </div>
+    </div>
+</div>
+ 
+ <!---------daily attendance---->
+ <div class="container" [hidden]="con1">
+    <div class="rol">
+        <div class="col">
+            <div class="container-fluid">
+                <div class="attendance-container"> 
+                  <div class="attendance-header">
+                      <h5>My Attendance</h5>
+                      <span>{{currentDate}}</span>
+                    </div>
+                    <div class="table-responsive table-responsive-stack">
+                    <table class="table table-bordered attendance-table">
+                      <thead>
+                        <tr>
+                          <th>Location</th>
+                          <th>Time - {{currentTime}}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{{my_location}}</td>
+                          <td>
+                            <button class="btn btn-primary btn-check" (click)="checkIn()" [disabled]="disable">Check In</button>
+                            <button class="btn btn-danger btn-checkout mx-2" (click)="checkOut()" [disabled]="check_out_time">Check Out</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                    <div class="success-message" [style.color]="messageColor">
+                     {{message}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+ <!-----------over duty---------->
+ <div class="container" [hidden]="con2">
+  <div class="row">
+      <div class="col">
+
+        <div class="container tracker-container">
+          <div class="tracker-header">
+            <h5>My Over duty</h5>
+            <!-- <div class="inputs-container">
+              <input type="date" #from_date class="form-control">
+              <input type="date" #to_date class="form-control">
+            </div> -->
+          </div>
+          <div class="table-responsive table-responsive-stack">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Sl No</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">User Name</th>
+                  <th scope="col">Approved by</th>
+                  <th scope="col">Check In Time</th>
+                  <th scope="col">Check Out Time</th>
+                  <th scope="col">Check Out Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of over_duty_data; index as i">
+                  <th scope="row">{{i+1}}</th>
+                  <td>{{data?.start_date}}</td>
+                  <td>{{data?.driver?.user_name || '-'}}</td>
+                  <td>{{data?.entry_by?.user_name || '-'}}</td>
+                  <td>{{data?.check_in_time || '-'}}</td>
+                  <td>{{data?.check_out_time || '-'}}</td>
+                  <td>{{data?.end_date || '-'}}</td>
+                  <td class="d-sm-flex gap-2">
+                    <!-- Disable Check In button if check_in_time exists -->
+                    <button class="btn btn-primary btn-check" 
+                            (click)="overtimecheckIn(data.overtime_id)" 
+                            [disabled]="data?.check_in_time">
+                      Check In
+                    </button>
+              
+                    <!-- Disable Check Out button if check_out_time exists -->
+                    <button class="btn btn-danger btn-checkout" 
+                            [disabled]="data?.check_out_time" (click)="overtimecheckOut(data.overtime_id)">
+                      Check Out
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              
+            </table>
+          </div>
+        </div>
+        
+
+      </div>
+  </div>
+</div>
+
+
+

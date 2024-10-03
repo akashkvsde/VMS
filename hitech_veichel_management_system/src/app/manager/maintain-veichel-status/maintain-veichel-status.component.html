@@ -1,0 +1,140 @@
+
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-blue" style="font-weight: 600;">VEHICLE MAINTENANCE APPROVE STATUS <span class="text-danger">BY MANAGER</span></h6>
+        </div>
+    </div>
+
+.<div class="col-md-3">
+    <div class="form-group">       
+       <select class="form-select form-control" #status (change)="getMaintainVeicleData(status.value)">
+        <option value="">--Select--</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Not Approved">Not Approved</option>
+       </select>
+      </div>
+</div>
+
+<div class="card p-2">
+  <div class="table-responsive table-responsive-stack">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Sl. No.</th>
+          <th>Vehicle Name</th>
+          <th>Vehicle No.</th>
+          <th>Driver</th>
+          <th>Authority</th>
+          <th>Approve Status</th>
+          <th>Expected Amount</th>
+          <th>Maintenance Status</th>
+          <th>Start Date</th>
+          <th>Start Time</th>
+          <th>Start Fuel Label</th>
+          <th>KM Reading</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let maintenance of paginatedData; let i = index">
+          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+          <td>{{ maintenance.vehicle.vehicle_name }}</td>
+          <td>{{ maintenance.vehicle.vehicle_rc_no }}</td>
+          <td>{{ maintenance.driver.user_name }}</td>
+          <td>{{ maintenance.authority.user_name }}</td>
+          <td>{{ maintenance.maintenance_approve_status }}</td>
+          <td>{{ maintenance.exp_amt }}</td>
+          <td>{{ maintenance.maintenance_status }}</td>
+          <td>{{ maintenance.maintenance_start_date }}</td>
+          <td>{{ maintenance.maintenance_start_time }}</td>
+          <td>{{ maintenance.maintenance_start_fuel_level }}</td>
+          <td>{{ maintenance.maintenance_start_km_reading_by_manager }}</td>
+          <td data-label="Action" *ngIf="!maintenance.maintenance_start_time">
+            <button class="btn btn-primary btn-sm"
+                    data-toggle="modal"
+                    data-target="#exampleModal"
+                    (click)="getVeicleMaintainId(maintenance.vehicle_maintenance_id)"
+                    [disabled]="maintenance.maintenance_approve_status !== 'Approved'">
+              <i class="fas fa-edit"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div
+    *ngIf="veicle_maintain_data.length > itemsPerPage"
+    class="pagination-controls d-flex justify-content-end mt-3">
+    <button
+      class="btn btn-sm btn me-2"
+      (click)="prevPage()"
+      [disabled]="currentPage === 1">
+      Previous
+    </button>
+    <button
+      class="btn btn-sm btn-link"
+      (click)="nextPage()"
+      [disabled]="currentPage * itemsPerPage >= veicle_maintain_data.length">
+      Next
+    </button>
+  </div>
+  
+
+  
+ 
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+            <form [formGroup]="maintenanceForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-12 mt-2">
+                      <label for="maintenance_start_time">Maintenance Start Time</label>
+                      <input id="maintenance_start_time" formControlName="maintenance_start_time" type="time" class="form-control" placeholder="Maintenance Start Time">
+                      <div *ngIf="maintenanceForm.get('maintenance_start_time')?.invalid && maintenanceForm.get('maintenance_start_time')?.touched" class="text-danger">
+                        Maintenance Start Time is required
+                      </div>
+                    </div>
+              
+                    <div class="col-md-12 mt-2">
+                      <label for="maintenance_start_fuel_level">Fuel Label (Ltr)</label>
+                      <input id="maintenance_start_fuel_level" formControlName="maintenance_start_fuel_level" type="number" class="form-control" placeholder="Fuel Label">
+                      <div *ngIf="maintenanceForm.get('maintenance_start_fuel_level')?.invalid && maintenanceForm.get('maintenance_start_fuel_level')?.touched" class="text-danger">
+                        Fuel Label is required
+                      </div>
+                    </div>
+              
+                    <div class="col-md-12 mt-2">
+                      <label for="maintenance_start_km_reading_by_manager">KM Reading</label>
+                      <input id="maintenance_start_km_reading_by_manager" formControlName="maintenance_start_km_reading_by_manager" type="text" class="form-control" placeholder="KM Reading">
+                      <div *ngIf="maintenanceForm.get('maintenance_start_km_reading_by_manager')?.invalid && maintenanceForm.get('maintenance_start_km_reading_by_manager')?.touched" class="text-danger">
+                        KM Reading is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" [disabled]="maintenanceForm.invalid">Save</button>
+                </div>
+              </form>
+              
+              
+          </div>
+        </div>
+      </div>
+
+</div>
+
+
+

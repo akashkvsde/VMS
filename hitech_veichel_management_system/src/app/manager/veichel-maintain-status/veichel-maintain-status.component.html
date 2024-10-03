@@ -1,0 +1,122 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+            <h6 class="mt-4 text-blue" style="font-weight: 600;">
+                VEHICLE MAINTENANCE STATUS <span class="text-danger">BY MANAGER</span>
+            </h6>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <div class="form-group">
+                <select class="form-select form-control" (change)="onStatusChange($event)">
+                    <option value="Approved" selected>Approved</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="card p-2">
+        <div class="table-responsive table-responsive-stack">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sl. No.</th>
+                        <th>Vehicle Name</th>
+                        <th>Vehicle No.</th>
+                        <th>Driver</th>
+                        <th>Problem</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Start KM Reading</th>
+                        <th>End KM Reading</th>
+                        <!-- <th>Service Center</th> -->
+                        <th>Maintenance Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let vehicle of vehicles; let i = index">
+                        <td data-label="Sl. No.">{{ i + 1 }}</td>
+                        <td data-label="Vehicle Name">{{ vehicle.vehicle.vehicle_name }}</td>
+                        <td data-label="Vehicle No.">{{ vehicle.vehicle.vehicle_rto_no }}</td>
+                        <td data-label="Driver">{{ vehicle.driver?.user_name }}</td>
+                        <td data-label="Problem">{{ vehicle.maintenance_problem.vehicle_problems_name }}</td>
+                        <td data-label="Start Date">{{ vehicle.maintenance_start_date }}</td>
+                        <td data-label="End Date">{{ vehicle.maintenance_end_date || '-' }}</td>
+                        <td data-label="Start Time">{{ vehicle.maintenance_start_time || '-' }}</td>
+                        <td data-label="End Time">{{ vehicle.maintenance_end_time || '-' }}</td>
+                        <td data-label="End KM Reading">{{ vehicle.maintenance_start_km_reading_by_manager || '-' }}</td>
+                        <td data-label="End KM Reading">{{ vehicle.maintenance_end_km_reading_by_manager || '-' }}</td>
+                        <!-- <td data-label="Service Center">{{ vehicle.maintenance_service_center_name }}</td> -->
+                        <td data-label="Maintenance Status">{{ vehicle.maintenance_status }}</td>
+                        <td data-label="Action" *ngIf="!vehicle.maintenance_end_km_reading_by_manager">
+                            <button class="btn btn-primary btn-sm" (click)="openEditModal(vehicle.vehicle_maintenance_id)" data-toggle="modal" data-target="#exampleModal">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="maintenanceForm" (ngSubmit)="onSave()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="endDate">Maintenance End Date</label>
+                            <input type="date" class="form-control mt-2" formControlName="maintenanceEndDate">
+                            <div *ngIf="maintenanceForm.get('maintenanceEndDate')?.invalid && maintenanceForm.get('maintenanceEndDate')?.touched" class="text-danger">
+                                Maintenance end date is required.
+                            </div>
+                            <label for="endKmReading">End KM Reading</label>
+                            <input type="text" class="form-control mt-2" formControlName="endKmReading" placeholder="End km reading">
+                            <div *ngIf="maintenanceForm.get('endKmReading')?.invalid && maintenanceForm.get('endKmReading')?.touched" class="text-danger">
+                                Valid end km reading is required.
+                            </div>
+                            <label for="receipt">Receipt</label>
+                            <input type="file" class="form-control mt-2" (change)="onFileChange($event)">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="endTime">Maintenance End Time</label>
+                            <input type="time" class="form-control mt-2" formControlName="maintenanceEndTime">
+                            <div *ngIf="maintenanceForm.get('maintenanceEndTime')?.invalid && maintenanceForm.get('maintenanceEndTime')?.touched" class="text-danger">
+                                Maintenance end time is required.
+                            </div>
+                            <label for="amount">Amount</label>
+                            <input type="text" class="form-control mt-2" formControlName="amount" placeholder="Amount">
+                            <div *ngIf="maintenanceForm.get('amount')?.invalid && maintenanceForm.get('amount')?.touched" class="text-danger">
+                                Valid amount is required.
+                            </div>
+                            <label for="fuelEndReading">Fuel End Reading</label>
+                            <input type="text" class="form-control mt-2" formControlName="fuelEndReading" placeholder="Fuel End Reading">
+                            <div *ngIf="maintenanceForm.get('fuelEndReading')?.invalid && maintenanceForm.get('fuelEndReading')?.touched" class="text-danger">
+                                Valid fuel end reading is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="maintenanceForm.invalid">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</div>

@@ -1,0 +1,33 @@
+      /* For horizontal scroll */
+      .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* For stacking on mobile */
+    @media (max-width: 767px) {
+        .table-responsive-stack tr {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .table-responsive-stack td {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table-responsive-stack td::before {
+            content: attr(data-label);
+            flex-basis: 50%;
+            text-align: right;
+            padding-right: 1rem;
+            font-weight: bold;
+        }
+
+        .table-responsive-stack thead {
+            display: none;
+        }
+    }

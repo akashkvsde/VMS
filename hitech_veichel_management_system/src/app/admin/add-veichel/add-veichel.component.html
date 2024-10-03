@@ -1,0 +1,203 @@
+<div class="container pl-4">
+  <div class="row mt-2">
+    <div class="col">
+      <h6 class="mt-4 text-blue" style="font-weight: 600;">ADD VEHICLE <span class="text-danger">BY ADMIN</span></h6>
+    </div>
+  </div>
+
+<div class="card p-2">
+  <form (ngSubmit)="onSubmit(vehicleForm)" #vehicleForm="ngForm">
+    <div class="row mt-3">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="category">Select Category</label>
+          <select class="form-select form-control" [(ngModel)]="vehicle.vehicle_category_id" name="vehicle_category" required>
+            <option value="" selected>--Select--</option>
+            <option *ngFor="let cat of vehicleCategories" [value]="cat.vehicle_category_id">{{cat.vehicle_category_name}}</option>
+          </select>
+          <div *ngIf="errorMessages['vehicle_category_id']" class="text-danger">
+            {{ errorMessages['vehicle_category_id'] }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="owner">Select Owner</label>
+          <select class="form-select form-control"  [(ngModel)]="vehicle.vehicle_owner_id" name="vehicle_owner" required>
+            <option value="">--Select--</option>
+            <option *ngFor="let owner of vehicleOwners" [value]="owner.vehicle_owner_id">{{owner.vehicle_owner_name}}</option>
+          </select>
+          <div *ngIf="errorMessages['vehicle_owner_id']" class="text-danger">
+            {{ errorMessages['vehicle_owner_id'] }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="vehicle_name">Vehicle Name</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.vehicle_name" name="vehicle_name" placeholder="Vehicle Name" style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['vehicle_name']" class="text-danger">
+            {{ errorMessages['vehicle_name'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="vehicle_model">Vehicle Model</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.vehicle_model" name="vehicle_model" placeholder="Vehicle Model" style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['vehicle_model']" class="text-danger">
+            {{ errorMessages['vehicle_model'] }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="rc_no">RC No.</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.rc_no" name="rc_no" placeholder="RC No." style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['rc_no']" class="text-danger">
+            {{ errorMessages['rc_no'] }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="rc_file">RC File</label>
+          <input type="file" class="form-control" (change)="onFileChange($event)" style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['rc_file']" class="text-danger">
+            {{ errorMessages['rc_file'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="purchase_date">Purchase Date</label>
+          <input type="date" class="form-control" [(ngModel)]="vehicle.purchase_date" name="purchase_date" style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['purchase_date']" class="text-danger">
+            {{ errorMessages['purchase_date'] }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="fasttag_no">FastTag No.</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.fasttag_no" name="fasttag_no" placeholder="FastTag No." style="max-width: 400px;">
+          <div *ngIf="errorMessages['fasttag_no']" class="text-danger">
+            {{ errorMessages['fasttag_no'] }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="rto_no">RTO No.</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.rto_no" name="rto_no" placeholder="RTO No." style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['rto_no']" class="text-danger">
+            {{ errorMessages['rto_no'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="chesis_no">Chassis No.</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.chesis_no" name="chesis_no" placeholder="Chassis No." style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['chesis_no']" class="text-danger">
+            {{ errorMessages['chesis_no'] }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="engine_no">Engine No.</label>
+          <input type="text" class="form-control" [(ngModel)]="vehicle.engine_no" name="engine_no" placeholder="Engine No." style="max-width: 400px;" required>
+          <div *ngIf="errorMessages['engine_no']" class="text-danger">
+            {{ errorMessages['engine_no'] }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="fuel_type">Fuel Type</label>
+          <select class="form-select form-control" [(ngModel)]="vehicle.fuel_type" name="fuel_type" required>
+            <option value="">--Select--</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+            <option value="EV">EV</option>
+            <option value="CNG">CNG</option>
+          </select>
+          <div *ngIf="errorMessages['fuel_type']" class="text-danger">
+            {{ errorMessages['fuel_type'] }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <button class="mx-2" type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<!---------faetch all data ------------------------------------->
+<div class="container mt-3">
+<div class="card">
+  <div class="row">
+    <div class="col">
+      <table *ngIf="vehicle_fetch_data.length > 0" class="table" style="font-size: small;">
+        <thead>
+            <tr>
+                <th>Sl. No.</th>
+                <th>Vehicle Name</th>
+                <th>Owner Name</th>
+                <th>RTO No.</th>
+                <th>Model</th>
+                <th>Fuel Type</th>
+                <th>Purchase Date</th>
+                <th>RC No.</th>
+                <th>FastTag No.</th>
+                <th>Fitness No.</th>
+                <th>Chassis No.</th>
+                <th>Engine No.</th>
+                <th class="demo">Receipt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of vehicle_fetch_data; let i = index">
+                <td data-label="Sl. No.">{{ i + 1 }}</td>
+                <td data-label="Vehicle Name">{{ a.vehicle_name || 'NA'}}</td>
+                <td data-label="Owner Name">{{ a.owner.vehicle_owner_name || 'NA'}}</td>
+                <td data-label="RTO No.">{{ a.vehicle_rto_no || 'NA'}}</td>
+                <td data-label="Model">{{ a.vehicle_model || 'NA'}}</td>
+                <td data-label="Fuel Type">{{ a.vehicle_fuel_type || 'NA'}}</td>
+                <td data-label="Purchase Date">{{ a.vehicle_purchase_date || 'NA'}}</td>
+                <td data-label="RC No.">{{ a.vehicle_rc_no || 'NA'}}</td>
+                <td data-label="FastTag No.">{{ a.vehicle_fastag_no || 'NA'}}</td>
+                <td data-label="Fitness No.">{{ a.vehicle_fitness_end || 'NA'}}</td>
+                <td data-label="Chassis No.">{{ a.vehicle_chassis_no || 'NA'}}</td>
+                <td data-label="Engine No.">{{ a.vehicle_engine_no || 'NA'}}</td>
+                <td class="demo" data-label="Receipt Download">
+                  <a [href]="fileurl + '/' + a.vehicle_rc_file" target="_blank" [attr.download]="fileurl + '/' + a.vehicle_rc_file">
+                    <button id="icon" class="btn btn-primary btn-xs">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+</div>

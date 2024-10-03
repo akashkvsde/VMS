@@ -1,0 +1,118 @@
+<div class="container">
+  <!-- Existing Form Section -->
+  <div class="row mt-2">
+      <div class="col">
+          <h6 class="mt-4 text-blue" style="font-weight: 600;">ADD POLLUTION <span class="text-danger">BY MANAGER</span></h6>
+      </div>
+  </div>
+
+  <form #pollutionForm="ngForm" #pollutionFormRef (ngSubmit)="onSubmit(pollutionForm)" novalidate>
+    <div class="row mt-2">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="vehicleCategory">Select Vehicle</label>
+          <select class="form-select form-control" [(ngModel)]="addPollution.vehicle_id" name="vehicle_id" required>
+            <option value="" disabled>--Select--</option>
+            <option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicle_id">{{vehicle.vehicle_name}}</option>
+          </select>
+          <div *ngIf="pollutionForm.submitted && !addPollution.vehicle_id" class="text-danger">Vehicle selection is required.</div>
+        </div>
+      </div>
+  
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="pucNo">PUC No.</label>
+          <input type="text" class="form-control" [(ngModel)]="addPollution.puc_no" name="puc_no" placeholder="Enter PUC No." required>
+          <div *ngIf="pollutionForm.submitted && !addPollution.puc_no" class="text-danger">PUC No. is required.</div>
+        </div>
+      </div>
+  
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="pucStartDate">Pollution Start Date</label>
+          <input type="date" class="form-control" [(ngModel)]="addPollution.puc_start_date" name="puc_start_date" required>
+          <div *ngIf="pollutionForm.submitted && !addPollution.puc_start_date" class="text-danger">Start Date is required.</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="pucEndDate">Pollution End Date</label>
+          <input type="date" class="form-control" [(ngModel)]="addPollution.puc_end_date" name="puc_end_date" required>
+          <div *ngIf="pollutionForm.submitted && !addPollution.puc_end_date" class="text-danger">End Date is required.</div>
+        </div>
+      </div>
+  
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="pucFile">PUC File</label>
+          <input type="file" (change)="onFileChange($event)" name="puc_file" class="form-control" required>
+          <div *ngIf="pollutionForm.submitted && !pollution_file" class="text-danger">PUC File is required.</div>
+        </div>
+      </div>
+  
+      <div class="col-md-3 mt-4">
+        <button type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+  
+
+  <!-- New Report Section -->
+  <div class="row mt-4">
+      <div class="col">
+          <h5 class="mt-4 text-blue" style="font-weight: 600;">
+              <b><span class="text-primary">POLLUTION </span></b>
+              <b><span class="text-danger">REPORT</span></b>
+          </h5>
+      </div>
+  </div>
+  <div class="row mt-2 vehicle">
+      <div class="col-md-3">
+          <div class="form-group">
+              <label for="roleSelect">Select Vehicle</label>
+              <select class="form-select form-control" [(ngModel)]="callVehicle" name="vehiclee" (change)="getPoll(callVehicle)">
+                
+                <option *ngFor="let vehi of vehicles" [value]="vehi.vehicle_id">{{vehi.vehicle_name}}</option>
+              </select>
+          </div>
+      </div>
+  </div>
+  <div class="row mt-2" >
+      <div class="col">
+          <div class="table-responsive table-responsive-stack">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th>Sl. No.</th>
+                          <th>Vehicle Name</th>
+                          <th>Vehicle No.</th>
+                          <th>PUC No.</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Edit</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let pollution of data paginate: { itemsPerPage: itemsPerPage, currentPage: p };index as i">
+                          <td data-label="Sl. No.">{{i+1}}</td>
+                          <input type="hidden" [(ngModel)]="addPollution.vehicle_pollution_id" name="vehicle_pollution_id">
+
+                          <td data-label="Vehicle Name">{{pollution.vehicle.vehicle_name}}</td>
+                          <td data-label="Vehicle No.">{{pollution.vehicle.vehicle_rto_no}}</td>
+                          <td data-label="Vehicle No.">{{pollution.vehicle_pollution_puc_no}}</td>
+                          <td data-label="Start Date">{{pollution.vehicle_pollution_start_date}}</td>
+                          <td data-label="End Date">{{pollution.vehicle_pollution_end_date}}</td>
+                          <td><button (click)="editPollution(pollution)">Edit</button></td>
+                        </tr>
+                  </tbody>
+              </table>
+              <div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <h5 class="d-flex align-item-center justify-content-center text-danger">{{message}}</h5>
+</div>

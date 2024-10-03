@@ -1,0 +1,239 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col">
+      <h5 class="mt-4 text-blue" style="font-weight: 600;">
+        <b><span class="text-primary">USER </span></b>
+        <b><span class="text-danger">DETAILS</span></b>
+      </h5>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="roleSelect">Select Role</label>
+        <select class="form-select form-control" (change)="selectUserRole($event)">
+          <option value="">--Select--</option>
+          <option *ngFor="let data of all_role" [value]="data | json">{{data.role_name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Driver Table -->
+  <div>
+    <!-- <h4 style="margin-top:50px;">
+      <b><span class="text-primary">Driver </span></b>
+      <b><span class="text-danger">Details</span></b>
+    </h4> -->
+
+    <div class="row mt-2">
+      <div class="col">
+        <div class="table-responsive table-responsive-stack">
+          <table class="table">
+            <thead>
+              <tr *ngIf="!message">
+                <th>Sl. No.</th>
+                <th>User ID</th>
+                <th>Employee Name</th>
+                <th>Mobile No</th>
+                <th>Photo</th>
+                <th [hidden]="disable_driver">DL File</th>
+                <th [hidden]="disable_driver">Dl Number</th>
+                <th>Details</th>
+                <th>Action</th>
+                <th>Active</th> <!-- Added Active status toggle column -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of all_user; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ user?.user_login_id }}</td>
+                <td>{{ user?.user_name }}</td>
+                <td>{{ user?.user_1st_mobile_no }}</td>
+                <td>
+                  <img *ngIf="user.photo" [src]="getPhotoUrl(user.photo)" alt="User Photo" style="width: 50px; height: 50px;">
+                </td>
+                <td [hidden]="disable_driver">
+                  <a *ngIf="user.driver_details" [href]="getPhotoUrl(user.driver_details.dl_file)" target="_blank">
+                    <img *ngIf="user.driver_details" src="assets/pdficon.png" alt="Driving License" style="width: 50px; height: 50px;">
+                  </a>
+                </td>
+                <td *ngIf="user.driver_details">{{ user?.driver_details.dl_no }}</td>
+                <td>
+                  <button class="btn btn-primary" (click)="getSingleUserData(user)" data-toggle="modal" data-target="#printModal">Details</button>
+                </td>
+                <td>
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="editUser(user)">Edit</button>
+                </td>
+                <td>
+                  <!-- Activation toggle -->
+                  <label class="switch">
+                    <input type="checkbox" [checked]="user.status === 1" (change)="toggleUserStatus(user)">
+                    <span class="slider round"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+        <h6 class="d-flex align-item-center justify-content-center  bg-secondary"><span class="text-white">{{message}}</span></h6>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 1 for edit -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+          <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="userForm" (ngSubmit)="handleSubmit()">
+          <div class="modal-body">
+            <div class="row">
+              
+              <div class="col-12">
+                <label for="user_name">Name</label>
+                <input
+                  type="text"
+                  id="user_name"
+                  class="form-control mt-2"
+                  placeholder="Name"
+                  formControlName="user_name"
+                />
+              </div>
+        
+              <div class="col-12">
+                <input
+                  type="number"
+                  id="user_id"
+                  class="form-control mt-2"
+                  placeholder="ID"
+                  formControlName="user_id"
+                  [hidden]="true"
+                />
+              </div>
+        
+              <div class="col-12">
+                <label for="user_1st_mobile_no">Mobile No.</label>
+                <input
+                  type="text"
+                  id="user_1st_mobile_no"
+                  class="form-control mt-2"
+                  placeholder="Mobile No."
+                  formControlName="user_1st_mobile_no"
+                />
+              </div>
+        
+              <div class="col-12">
+                <label for="user_wp_no">WP No.</label>
+                <input
+                  type="text"
+                  id="user_wp_no"
+                  class="form-control mt-2"
+                  placeholder="WP No."
+                  formControlName="user_wp_no"
+                />
+              </div>
+        
+              <div class="col-12">
+                <label for="photo">Photo</label>
+                <input
+                  type="file"
+                  id="photo"
+                  class="form-control mt-2"
+                  (change)="onFileChange($event)"
+                  formControlName="photo"
+                />
+              </div>
+
+              <div class="col-12" [hidden]="disable_driver">
+                <label for="dl_file">Dl_file</label>
+                <input
+                  type="file"
+                  id="dl_file"
+                  class="form-control mt-2"
+                  (change)="onFileChangedl($event)"
+                  formControlName="dl_file"
+                />
+              </div>
+
+              <div class="col-12" [hidden]="disable_driver">
+                <label for="dl_no">Dl no</label>
+                <input
+                  type="text"
+                  id="dl_no"
+                  class="form-control mt-2"
+                  placeholder="dl_no"
+                  formControlName="dl_no"
+                />
+              </div>
+              
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+ <!-- Modal 1 for print -->
+  <div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Employee Details</h5>
+          <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="container m-2 mb-3" id="printableArea">
+          <!-- User Name and Role -->
+          <div class="row">
+            <div class="col-md d-sm-flex"><b>Name:</b><p>{{mymodel?.user_name}}</p></div>
+            <div class="col-md d-sm-flex"><b>Role:</b> <p>{{mymodel?.role?.role_name}}</p></div>
+          </div>
+          
+          <!-- Contact Information -->
+          <div class="row mt-3">
+            <div class="col-md d-sm-flex"><b>Contact No:</b> <p>{{mymodel?.user_1st_mobile_no}}</p></div>
+            <div class="col-md d-sm-flex"><b>Whatsapp No:</b> <p>{{mymodel?.user_2nd_mobile_no}}</p></div>
+          </div>
+          
+          <!-- Dates -->
+          <div class="row mt-3">
+            <div class="col-md d-sm-flex"><b>Date Of Joining:</b> <p>{{mymodel?.doj}}</p></div>
+            <div class="col-md d-sm-flex"><b>Date Of Birth:</b> <p>{{mymodel?.dob}}</p></div>
+          </div>
+          
+          <!-- Aadhar and Organization -->
+          <div class="row mt-3">
+            <div class="col-md d-sm-flex"><b>Aadhar No:</b> <p>{{mymodel?.aadhar_no}}</p></div>
+            <div class="col-md d-sm-flex"><b>Organization:</b> <p>{{mymodel?.organization_by_user_id?.organization_name}}</p></div>
+          </div>
+          
+          <!-- Second Contact and Address -->
+          <div class="row mt-3">
+            <div class="col-md d-sm-flex"><b>Second Contact:</b> <p>{{mymodel?.user_2nd_mobile_no}}</p></div>
+            <div class="col-md d-sm-flex"><b>Address:</b> <p>{{mymodel?.address}}</p></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" (click)="printDiv('printableArea')">Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

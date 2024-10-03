@@ -1,0 +1,262 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col">
+      <h6 class="mt-4 text-blue" style="font-weight: 600;">
+        <b><span class="text-primary">START VEHICLE MOVEMENT </span></b>
+        <b><span class="text-danger">BY MANAGER</span></b>
+      </h6>
+    </div>
+  </div>
+
+  <div class="card p-2 mt-3">
+    <form [formGroup]="movementForm" (ngSubmit)="onSubmit()">
+      <div class="row mt-3">
+        <div class="col-md-3">
+          <!-- <div class="form-group">
+            <label for="vehicleSelect">Select Vehicle</label>
+            <select class="form-select form-control" formControlName="vehicle_id">
+              <option value="">--Select--</option>
+              <option *ngFor="let data of all_veichels" [value]="data.vehicle_id">{{data.vehicle_name}},{{data.vehicle_rto_no}}</option>
+            </select>
+            <div *ngIf="movementForm.get('vehicle_id')?.invalid && movementForm.get('vehicle_id')?.touched" class="text-danger">
+              Vehicle is required.
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <label for="vehicleSelect">Select Vehicle</label>
+            <ng-select
+              class=""
+              [items]="all_veichels"
+              formControlName="vehicle_id"
+              [searchable]="true"
+              [clearable]="true"
+              placeholder="--Select Vehicle--"
+              [virtualScroll]="true"
+              bindValue="vehicle_id"
+              bindLabel="vehicle_rto_no"  
+              name="vehicle_id">
+              <!-- Custom label to combine vehicle_name and vehicle_rto_no -->
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.vehicle_name }} ({{ item.vehicle_rto_no }})
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.vehicle_name }} ({{ item.vehicle_rto_no }})
+              </ng-template>
+            </ng-select>
+          
+            <div *ngIf="movementForm.get('vehicle_id')?.invalid && movementForm.get('vehicle_id')?.touched" class="text-danger">
+              Vehicle is required.
+            </div>
+          </div>
+          
+          <!-------TEST DRIVER----->
+          
+  
+       <!-------TEST DRIVER----->
+
+
+
+        </div>
+
+        <div class="col-md-3">
+          <!-- <div class="form-group">
+            <label for="driverSelect">Select Driver</label>
+            <select class="form-select form-control" formControlName="driver_id">
+              <option value="">--Select--</option>
+              <option *ngFor="let data of all_drivers" [value]="data.user_id"> {{data.user_name}}</option>
+            </select>
+            <div *ngIf="movementForm.get('driver_id')?.invalid && movementForm.get('driver_id')?.touched" class="text-danger">
+              Driver is required.
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <label for="driverSelect">Select Driver</label>
+            <ng-select
+              [items]="all_drivers"
+              formControlName="driver_id"
+              [searchable]="true"
+              [clearable]="true"
+              placeholder="--Select Driver--"
+              [virtualScroll]="true"
+              bindValue="user_id"
+              bindLabel="user_name">
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.user_name }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.user_name }}
+              </ng-template>
+            </ng-select>
+          
+            <div *ngIf="movementForm.get('driver_id')?.invalid && movementForm.get('driver_id')?.touched" class="text-danger">
+              Driver is required.
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="movementDate">Date</label>
+            <input type="date" class="form-control" formControlName="movement_start_date">
+            <div *ngIf="movementForm.get('movement_start_date')?.invalid && movementForm.get('movement_start_date')?.touched" class="text-danger">
+              Date is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="startFrom">Start From</label>
+            <input type="text" class="form-control" formControlName="movement_start_from" placeholder="--Start From--">
+            <div *ngIf="movementForm.get('movement_start_from')?.invalid && movementForm.get('movement_start_from')?.touched" class="text-danger">
+              Start From is required.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="destination">Destination</label>
+            <input type="text" class="form-control" formControlName="movement_destination"  placeholder="--Destination--">
+            <div *ngIf="movementForm.get('movement_destination')?.invalid && movementForm.get('movement_destination')?.touched" class="text-danger">
+              Destination is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="takenBy">Taken By</label>
+            <input type="text" class="form-control" formControlName="taken_by" placeholder="--Taken By--">
+            <div *ngIf="movementForm.get('taken_by')?.invalid && movementForm.get('taken_by')?.touched" class="text-danger">
+              Taken By is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="purposeOfVisit">Purpose</label>
+            <select type="text" class="form-control" formControlName="purpose" #pur (change)="purposeVisit(pur.value)">
+              <option value="">--Select--</option>
+              <option value="fuel">Fuel</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="Official">Official</option>
+              <option value="emergency">emergency</option>
+              <option value="pick_Up">Pick Up</option>
+              <option value="droping">Droping</option>
+              <option value="other">other</option>
+            </select>
+            <div *ngIf="movementForm.get('purpose')?.invalid && movementForm.get('purpose')?.touched" class="text-danger">
+              Purpose is required.
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="row">
+
+ 
+        
+        <div class="col-md-3" *ngIf="purpose_of_visit == 'other'">
+          <div class="form-group">
+            <label for="purposeOfVisit">Purpose of Visit</label>
+            <input type="text" class="form-control" formControlName="purpose_of_visit" placeholder="--Purpose of Visit--">
+            <div *ngIf="movementForm.get('purpose_of_visit')?.invalid && movementForm.get('purpose_of_visit')?.touched" class="text-danger">
+              Purpose of Visit is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="startKmReading">Start Km Reading</label>
+            <input type="number" class="form-control" formControlName="movement_start_km_reading_by_manager" placeholder="--Start Km Reading--">
+            <div *ngIf="movementForm.get('movement_start_km_reading_by_manager')?.invalid && movementForm.get('movement_start_km_reading_by_manager')?.touched" class="text-danger">
+              Start Km Reading is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="startTime">Start Time</label>
+            <input type="time" class="form-control" formControlName="movement_start_time" placeholder="--Start time --">
+            <div *ngIf="movementForm.get('movement_start_time')?.invalid && movementForm.get('movement_start_time')?.touched" class="text-danger">
+              Start Time is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary mx-2" [disabled]="movementForm.invalid">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col">
+     
+      <div class="table-responsive table-responsive-stack">
+        <table class="table" *ngIf="movement.length > 0">
+          <thead>
+            <tr>
+              <th>Sl. No.</th>
+              <th>Vehicle Name</th>
+              <th>Vehicle No</th>
+              <th>Driver</th>
+              <th>Manager</th>
+              <th>Start Date</th>
+              <th>Destination</th>
+              <th>Start From</th>
+              <th>Purpose</th>
+              <th>Purpose of Visit</th>
+              <th>Start KM Reading(M)</th>
+              <th>Action</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let move of movement; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ move?.vehicle?.vehicle_name || '-' }}</td>
+              <td>{{ move?.vehicle?.vehicle_rto_no || '-' }}</td>
+              <td>{{ move?.driver?.user_name || '-' }}</td>
+              <td>{{ move?.manager?.user_name || '-' }}</td>
+              <td>{{ move?.movement_start_date || '-' }}</td>
+              <td>{{ move?.movement_destination || '-' }}</td>
+              <td>{{ move?.movement_start_from || '-' }}</td>
+              <td>{{ move?.purpose || '-' }}</td>
+              <td>{{ move?.purpose_of_visit || '-' }}</td>
+              <td>{{ move?.movement_start_km_reading_by_manager || '-' }}</td>
+              <td>
+                <div *ngIf="move?.fuel_expenses_id ? false : true">
+                  <span
+                    class="text-primary"
+                    style="cursor: pointer;"
+                    *ngIf="move?.purpose == 'fuel'"
+                    (click)="navigateToFuelFilling(move)"
+                  >
+                    <i class="fa-solid fa-diamond-turn-right"></i>
+                  </span>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+  </div>
+</div>

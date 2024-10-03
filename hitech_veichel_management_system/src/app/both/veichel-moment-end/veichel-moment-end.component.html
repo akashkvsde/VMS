@@ -1,0 +1,178 @@
+<div class="container">
+  <div class="row mt-2">
+      <div class="col">
+         <h6 class="mt-4 text-dark" style="font-weight: 600;">END VEHICLE MOVEMENT <span class="text-danger">(DRIVER)</span></h6>
+      </div>
+  </div>
+
+  <div class="row justify-content-center xp mt-2" >
+      <div class="col-md-12">
+          <div class="card p-5">
+              <div class="row">
+                <div class="col-md-3">
+                      <div class="form-group d-flex">
+                          <label for="exampleInputEmail1">Start Date:</label>
+                          <input type="date" class="form-control me-4" style="max-width: 400px; margin-left: 10px;" #startDate (change)="onDateChange(startDate.value)">
+                        </div>
+                  </div>
+              </div>
+              </div>
+      </div>
+
+  </div>
+
+  <div class="row mt-2">
+      <div class="col">
+          <div class="table-responsive table-responsive-stack">
+              <table class="table">
+                  <thead>
+                      <tr *ngIf="!message">
+                          <th>Sl. No.</th>
+                          <th>Start Date</th>
+                          <th>Manager Name</th>
+                          <th>Driver Name</th>
+                          <th>Veicle Name</th>
+                          <th>Veicle No</th>
+                          <th>Start From</th>
+                          <th>Destination</th>
+                          <th>Taken By</th>
+                          <th>Start Km reading</th>
+                          <th>Start time</th>
+                          <th>End Km reading</th>
+                          <th>End Time</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data of veicle_moment_fetch_data ; let i = index">
+                          <td data-label="Sl. No.">{{i+1}}</td>
+                          <td data-label="Vehicle Name">{{data.movement_start_date}}</td>
+                          <td data-label="manager Name.">{{data.manager.user_name}}</td>
+                          <td data-label="Driver Name.">{{data.driver.user_name}}</td>
+                          <td data-label="Driver Name.">{{data.vehicle.vehicle_name}}</td>
+                          <td data-label="Driver Name.">{{data.vehicle.vehicle_rto_no}}</td>
+                          <td data-label="Driver">{{data.movement_start_from}}</td>
+                          <td data-label="Manager">{{data.movement_destination}}</td>
+                          <td data-label="Manager">{{data.taken_by}}</td>
+                          <td data-label="Authority">{{data.movement_start_km_reading_by_driver}}</td>
+                          <td data-label="Authority">{{data.movement_start_time_by_driver}}</td>
+                          <td data-label="Start Date">{{data.movement_end_km_reading_by_driver}}</td>
+                          <td data-label="Start Date">{{data.movement_end_time_by_driver}}</td>
+                          <td data-label="Action" *ngIf="!data.movement_start_km_reading_by_driver"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="getSinglemomentData(data)"><i class="fas fa-edit"></i></button></td>
+                          <td data-label="Action" *ngIf="data.movement_start_km_reading_by_driver && !data.movement_end_km_reading_by_driver">
+                            <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal2" (click)="getSinglemomentData(data)">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                          </td>
+                          
+                         </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+
+ <h5 class="bg-secondary d-flex align-item-center justify-content-center">{{message}}</h5>
+
+</div>
+
+<!---modl 1-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="kmReadingForm" (ngSubmit)="stKmreadingUpdata()">
+        <div class="modal-body">
+          <!-- Start KM Reading -->
+          <div class="container mt-3">
+            <h6>Start KM Reading</h6>
+            <div class="d-flex">
+              <input 
+                type="number" 
+                class="form-control me-2" 
+                placeholder="Start KM Reading" 
+                formControlName="movement_start_km_reading_by_driver" 
+                required>
+            </div>
+            <div *ngIf="kmReadingForm.controls['movement_start_km_reading_by_driver'].invalid && kmReadingForm.controls['movement_start_km_reading_by_driver'].touched" class="text-danger">
+              Start KM Reading is required.
+            </div>
+          </div>
+      
+          <!-- End KM Reading -->
+          <div class="container mt-3">
+            <h6>Start time</h6>
+            <div class="d-flex">
+              <input 
+                type="time" 
+                class="form-control me-2" 
+                placeholder="Start time" 
+                formControlName="movement_start_time_by_driver" 
+                required>
+            </div>
+            <div *ngIf="kmReadingForm.controls['movement_start_time_by_driver'].invalid && kmReadingForm.controls['movement_start_time_by_driver'].touched" class="text-danger">
+              St time Reading is required.
+            </div>
+          </div>
+        </div>
+      
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="kmReadingForm.invalid">Submit</button>
+        </div>
+      </form>
+      
+      
+    </div>
+  </div>
+</div>
+
+
+<!---modl 2-->
+<!---modal 2-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="endKmreadingForm" (ngSubmit)="endUpdate()">
+        <div class="modal-body">
+          
+          <!-- End KM Reading -->
+          <div class="container mt-3">
+            <h6>End KM Reading</h6>
+            <div class="d-flex">
+              <input type="number" class="form-control me-2" placeholder="End KM Reading" formControlName="movement_end_km_reading_by_driver" #ed_km required (keyup)="getEndkm(ed_km.value)">
+            </div>
+            <div *ngIf="endKmreadingForm.controls['movement_end_km_reading_by_driver'].invalid && endKmreadingForm.controls['movement_end_km_reading_by_driver'].touched" class="text-danger">
+              End KM Reading is required.
+            </div>
+          </div>
+            
+          <!-- End Time -->
+          <div class="container mt-3">
+            <h6>End Time</h6>
+            <div class="d-flex">
+              <input type="time" class="form-control me-2" placeholder="End Time" formControlName="movement_end_time_by_driver" required>
+            </div>
+            <div *ngIf="endKmreadingForm.controls['movement_end_time_by_driver'].invalid && endKmreadingForm.controls['movement_end_time_by_driver'].touched" class="text-danger">
+              End Time is required.
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="endKmreadingForm.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

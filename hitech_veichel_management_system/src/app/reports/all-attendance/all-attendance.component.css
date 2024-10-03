@@ -1,0 +1,41 @@
+@media(max-width:500px){
+    th,td{
+        font-size: 10px;
+    }
+
+    h5,h6,label,input,select,button{
+        font-size: 11px;
+    }
+
+    .xx{
+      margin-top: 0px!important;
+    }
+}
+
+
+@media print{
+    .demo{
+       display: none;
+     }
+    .vehicle{
+       display: none;
+     }
+     #icon{
+      display:none;
+     }
+     .pagination-controls {
+      display: none !important;
+    }
+  
+  
+     .table-responsive {
+      overflow: visible; /* Adjust overflow for print */
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .pagination-controls{
+    display: none;
+  }
+   }

@@ -1,0 +1,139 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h6 class="mt-4 text-blue" style="font-weight: 600;">ADD SERVICE STATION</h6>
+        </div>
+    </div>
+
+    <div class="card p-2">
+        <form #stationForm="ngForm" (ngSubmit)="onSubmit(stationForm)" novalidate>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="garage_name">Service Station Name</label>
+                        <input type="text" id="garage_name" class="form-control" placeholder="Enter Service Station Name" style="max-width: 400px;" [(ngModel)]="addStation.garage_name" name="garage_name" required>
+                        <div *ngIf="stationForm.submitted && !addStation.garage_name" class="text-danger">Service Station Name is required</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="location">Service Station Location</label>
+                        <input type="text" id="location" class="form-control" placeholder="Enter Location" style="max-width: 400px;" [(ngModel)]="addStation.location" name="location" required>
+                        <div *ngIf="stationForm.submitted && !addStation.location" class="text-danger">Service Station Location is required</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="garage_owner">Service Station Owner Name</label>
+                        <input type="text" id="garage_owner" class="form-control" placeholder="Enter Service Station Owner Name" style="max-width: 400px;" [(ngModel)]="addStation.garage_owner" name="garage_owner" required>
+                        <div *ngIf="stationForm.submitted && !addStation.garage_owner" class="text-danger">Service Station Owner Name is required</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="contact_person">Contact Person</label>
+                        <input type="text" id="contact_person" class="form-control" placeholder="Enter Contact Person" style="max-width: 400px;" [(ngModel)]="addStation.contact_person" name="contact_person" required>
+                        <div *ngIf="stationForm.submitted && !addStation.contact_person" class="text-danger">Contact Person is required</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="contact_no">Contact Number</label>
+                        <input type="text" id="contact_no" class="form-control" placeholder="Enter Contact Number" style="max-width: 400px;" [(ngModel)]="addStation.contact_no" name="contact_no" required pattern="^[0-9]{10}$">
+                        <div *ngIf="stationForm.submitted && !addStation.contact_no" class="text-danger">Contact Number is required</div>
+                        <div *ngIf="stationForm.submitted && stationForm.controls['contact_no'].invalid" class="text-danger">Contact Number must be exactly 10 digits</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="submit" class="mt-4 btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Display submission error message -->
+        <div *ngIf="submissionError" class="alert alert-danger mt-4" role="alert">
+            {{ submissionError }}
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h6 class="mt-4 text-blue" style="font-weight: 600;">VIEW SERVICE STATION DETAILS</h6>
+
+        <div class="card">
+            <div class="row mt-2">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Sl. No.</th>
+                                    <th>Service Station Name</th>
+                                    <th>Service Station Location</th>
+                                    <th>Service Station Owner Name</th>
+                                    <th>Contact Person</th>
+                                    <th>Contact Number</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let service of services; let i = index">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{service.garage_name}}</td>
+                                    <td>{{service.location}}</td>
+                                    <td>{{service.garage_owner}}</td>
+                                    <td>{{service.contact_person}}</td>
+                                    <td>{{service.contact_no}}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm" (click)="openModal(service)"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" [ngClass]="{'show d-block': isModalOpen}" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Service Station</h5>
+                        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+                    </div>
+                    <form [formGroup]="stationsForm" (ngSubmit)="handleUpdate()">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="garage_name">Service Station Name</label>
+                                <input type="text" id="garage_name" class="form-control" formControlName="garage_name">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="location">Service Station Location</label>
+                                <input type="text" id="location" class="form-control" formControlName="location">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="garage_owner">Service Station Owner Name</label>
+                                <input type="text" id="garage_owner" class="form-control" formControlName="garage_owner">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="contact_person">Contact Person</label>
+                                <input type="text" id="contact_person" class="form-control" formControlName="contact_person">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="contact_no">Contact Number</label>
+                                <input type="text" id="contact_no" class="form-control" formControlName="contact_no">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

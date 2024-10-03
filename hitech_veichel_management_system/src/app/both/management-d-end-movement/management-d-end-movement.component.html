@@ -1,0 +1,155 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-dark" style="font-weight: 600;">END VEHICLE MOVEMENT <span class="text-danger">(Management Driver)</span></h6>
+        </div>
+    </div>
+  
+    <div class="row justify-content-center xp mt-2" >
+        <div class="col-md-12">
+            <div class="card p-5">
+                <div class="row">
+                  <div class="col-md-3">
+                        <div class="form-group d-flex">
+                            <label for="exampleInputEmail1">Start Date:</label>
+                            <input type="date" class="form-control me-4" style="max-width: 400px; margin-left: 10px;" #startDate (change)="onDateChange(startDate.value)">
+                          </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+  
+    </div>
+  
+    <div class="row mt-2">
+        <div class="col">
+            <div class="table-responsive table-responsive-stack">
+                <table class="table">
+                    <thead>
+                        <tr *ngIf="!message">
+                            <th>Sl. No.</th>
+                            <th>Manager Name</th>
+                            <th>Driver Name</th>
+                            <th>Vehicle Name</th>
+                            <th>Vehicle Number</th>
+                            <th>Start Date</th>
+                            <th>Start Time</th>
+                            <th>Taken By</th>
+                            <th>Start From</th>
+                            <th>Destination</th>
+                            <th>Start Km reading</th>
+                            <th>End Km reading</th>
+                            <!-- <th>End Km reading(D)</th> -->
+                            <th>Distance Covered(km)</th>
+                            <th>End date</th>
+                            <th>End time</th>
+                            <!-- <th>End time(D)</th> -->
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of veicle_moment_fetch_data ; let i = index">
+                        <td data-label="Sl. No.">{{i+1}}</td>
+                        <td data-label="Vehicle Name">{{data?.manager?.user_name || '-'}}</td>
+                        <td data-label="Vehicle No.">{{data?.driver?.user_name || '-'}}</td>
+                        <td data-label="Vehicle No.">{{data?.vehicle.vehicle_name || '-'}}</td>
+                        <td data-label="Vehicle No.">{{data?.vehicle.vehicle_rto_no || '-'}}</td>
+                        <td data-label="Vehicle No.">{{data?.movement_start_date || '-'}}</td>
+                        <td data-label="Vehicle No.">{{data?.movement_start_time || '-'}}</td>
+                        <td data-label="Driver">{{data?.taken_by || '-'}}</td>
+                        <td data-label="Manager">{{data?.movement_start_from || '-'}}</td>
+                        <td data-label="Authority">{{data?.movement_destination || '-'}}</td>
+                        <td data-label="Start Date">{{data?.movement_start_km_reading_by_manager || '-'}}</td>
+                        <td data-label="Start Date">{{data?.movement_end_km_reading_by_manager || '-'}}</td>
+                        <!-- <td data-label="Start Date">{{data?.movement_end_km_reading_by_driver || '-'}}</td> -->
+                        <td data-label="Start Date">{{data?.movement_distance_covered || '-'}}</td>
+                        <td data-label="Start Date">{{data?.movement_end_date || '-'}}</td>
+                        <td data-label="Start Date">{{data?.movement_end_time || '-'}}</td>
+                        <!-- <td data-label="Start Date">{{data?.movement_end_time_by_driver || '-'}}</td> -->
+                        <td data-label="Action" *ngIf="!data.movement_end_km_reading_by_manager"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="getSinglemomentData(data)"><i class="fas fa-edit"></i></button></td>
+                       </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  
+   <div class="row d-flex align-item-center justify-content-center bg-secondary"><h6>{{message}}</h6></div>
+  
+  </div>
+  
+  <!---modl-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        <form [formGroup]="momentEndForm" (ngSubmit)="onSubmit()">
+          <div class="modal-body">
+        
+            <!-- End KM Reading -->
+            <div class="container mt-3">
+              <h6>End KM Reading</h6>
+              <div class="d-flex">
+                <input type="number" class="form-control me-2" formControlName="movement_end_km_reading_by_manager" #end_km_reading placeholder="End KM Reading" (keyup)="distanceCalculate(end_km_reading.value)">
+              </div>
+              <div *ngIf="momentEndForm.get('movement_end_km_reading_by_manager')?.invalid && momentEndForm.get('movement_end_km_reading_by_manager')?.touched" class="text-danger">
+                End KM Reading is required
+              </div>
+            </div>
+        
+            <!-- Distance Covered -->
+            <div class="container mt-3">
+              <h6>Distance Covered (in km)</h6>
+              <div class="d-flex">
+                <input type="number" class="form-control me-2" formControlName="movement_distance_covered" placeholder="Distance Covered" readonly>
+              </div>
+            </div>
+        
+            <!-- End Date -->
+            <div class="container mt-3">
+              <h6>End Date</h6>
+              <div class="d-flex">
+                <input type="date" class="form-control me-2" formControlName="movement_end_date">
+              </div>
+              <div *ngIf="momentEndForm.get('movement_end_date')?.invalid && momentEndForm.get('movement_end_date')?.touched" class="text-danger">
+                End Date is required
+              </div>
+            </div>
+        
+            <!-- End Time -->
+            <div class="container mt-3">
+              <h6>End Time</h6>
+              <div class="d-flex">
+                <input type="time" class="form-control me-2" formControlName="movement_end_time">
+              </div>
+              <div *ngIf="momentEndForm.get('movement_end_time')?.invalid && momentEndForm.get('movement_end_time')?.touched" class="text-danger">
+                End Time is required
+              </div>
+            </div>
+        
+            <!-- Save Button -->
+            <div class="container mt-3" [hidden]="disable_btn" > 
+              <div class="d-flex">
+                <button type="submit" class="btn btn-primary" [disabled]="momentEndForm.invalid">Save</button>
+              </div>
+            </div>
+        
+          </div>
+        </form>
+        
+        
+                 
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
+

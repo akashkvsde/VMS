@@ -1,0 +1,15 @@
+@media print{
+    .demo{
+       display: none;
+     }
+    .vehicle{
+       display: none;
+     }
+     #icon{
+      display:none;
+     }
+     .pagination-controls {
+      display: none !important;
+    }
+  
+   }

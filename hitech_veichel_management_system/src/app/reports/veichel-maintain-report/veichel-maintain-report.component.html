@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col">
+      <h6 class="mt-4 text-dark" style="font-weight: 600">
+        VEHICLE MAINTENANCE REPORT <span class="text-danger">BY ADMIN</span>
+      </h6>
+    </div>
+  </div>
+
+  <div class="row justify-content-center xp mt-5 demo">
+    <div class="col-md-12">
+      <div class="card p-5">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group d-flex">
+              <label for="fromDate">From:</label>
+              <input type="date" class="form-control me-4" [(ngModel)]="fdate" style="max-width: 400px"/>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group d-flex">
+              <label for="toDate">To:</label>
+              <input type="date" class="form-control me-4" [(ngModel)]="tdate" style="max-width: 400px" />
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group d-flex">
+              <select class="form-select form-control" [(ngModel)]="selectedVehicleNo">
+                <option value="">--Select Vehicle No--</option>
+                <option *ngFor="let fu of fuel" [value]="fu.vehicle_id">{{fu.vehicle_name}} - {{fu.vehicle_rto_no}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <button class="mx-2" (click)="vehicleMaintainance()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm printcsv xp mt-5 text-end" align="right">
+    <a (click)="printDiv()" id="icon"><i class="fas fa-print"></i></a>
+  </div>
+
+  <div class="card p-2 mt-2">
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive table-responsive-stack">
+          <p *ngIf="!showNoDataMessage && maintain.length > 0">From: {{ selectedFromDate }} &nbsp; &nbsp; &nbsp; To: {{ selectedToDate }}</p>
+
+          <table class="table" style="font-size: small;" *ngIf="maintain.length > 0 && !showNoDataMessage">
+            <thead>
+              <tr>
+                <th>Sl. No.</th>
+                <th>Vehicle Name</th>
+                <th>Vehicle No.</th>
+                <th>Driver</th>
+                <th>Manager</th>
+                <th>Authority</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Amount</th>
+                <th>Service Center</th>
+                <th>Location</th>
+                <th>Contact Person</th>
+                <th>Contact Number</th>
+                <th>Start KM Reading</th>
+                <th>End KM Reading</th>
+                <th class="demo">Receipt Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let main of paginatedData; let i = index">
+                <td data-label="Sl. No.">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td data-label="Vehicle Name">{{ main.vehicle?.vehicle_name || "NA" }}</td>
+                <td data-label="Vehicle No.">{{ main.vehicle?.vehicle_rto_no || "NA" }}</td>
+                <td data-label="Driver">{{ main.driver?.user_name || "NA" }}</td>
+                <td data-label="Manager">{{ main.manager?.user_name || "NA" }}</td>
+                <td data-label="Authority">{{ main.authority?.user_name || "NA" }}</td>
+                <td data-label="Start Date">{{ main.maintenance_start_date || "NA" }}</td>
+                <td data-label="End Date">{{ main.maintenance_end_date || "NA" }}</td>
+                <td data-label="Amount">{{ main.maintenance_amount || "NA" }}</td>
+                <td data-label="Service Center">{{ main.garage?.garage_name || "NA" }}</td>
+                <td data-label="Location">{{ main.garage?.location || "NA" }}</td>
+                <td data-label="Contact Person">{{ main.garage?.contact_person || "NA" }}</td>
+                <td data-label="Contact Number">{{ main.garage?.contact_no || "NA" }}</td>
+                <td data-label="Start KM Reading">{{ main.maintenance_start_km_reading_by_manager || "NA" }}</td>
+                <td data-label="End KM Reading">{{ main.maintenance_end_km_reading_by_manager || "NA" }}</td>
+                <td class="demo hii" data-label="Receipt Download">
+                  <a
+                    [href]="main.maintenance_service_center_recept_file ? fileurl + '/' + main.maintenance_service_center_recept_file : 'https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png'"
+                    target="_blank"
+                    [attr.download]="main.maintenance_service_center_recept_file ? fileurl + '/' + main.maintenance_service_center_recept_file : null"
+                  >
+                    <button id="icon" class="btn btn-primary btn-xs">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div *ngIf="showNoDataMessage" class="text-danger text-center">
+            No Vehicle Maintenance data available for the selected criteria.
+          </div>
+
+          <div *ngIf="!showNoDataMessage && maintain.length === 0" class="text-danger text-center">
+            No data available.
+          </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div *ngIf="maintain.length > itemsPerPage" class="pagination-controls d-flex justify-content-end mt-3" id="pagination">
+          <button class="btn btn-sm btn-link me-2" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+          <button class="btn btn-sm btn-link" (click)="nextPage()" [disabled="currentPage * itemsPerPage >= maintain.length">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

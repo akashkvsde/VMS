@@ -1,0 +1,185 @@
+<div class="container">
+  <div class="row mt-2">
+      <div class="col">
+         <h6 class="mt-4 text-blue" style="font-weight: 600;"><b><span class="text-primary">USER </span></b>
+               <b><span class="text-danger">REGISTRATION</span></b></h6>
+              </div>
+  </div>
+  <div class="card p-2 mb-5">
+    <div class="row mt-2">
+      <div class="col-md-3">
+        <div class="form-group">
+            <label for="roleSelect">Select Organization</label>
+            <select class="form-select form-control" #org (change)="selectOrganization(org.value)">
+                <option value="">--Select--</option>
+                <option *ngFor="let data of all_organization" value="{{data.organization_id}}" >{{data.organization_name}},{{data.organization_location}}</option>
+            </select>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="roleSelect">Select Role</label>
+          <select class="form-select form-control" (change)="selectUserRole($event)">
+            <option value="">--Select--</option>
+            <option *ngFor="let data of all_user_role" [value]="data | json">
+              {{data.role_name}}
+            </option>
+          </select>
+        </div>
+        
+        
+        
+        
+      </div>
+      </div>
+  </div>
+
+
+
+<!-- Manager Form -->
+
+  <!-- <h4 [hidden]="form_disable"><b><span class="text-primary">Add User</span></b></h4> -->
+  <div class="card p-2 mt-2" [hidden]="form_disable">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="row mt-2">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="user_name">Name</label>
+            <input formControlName="user_name" type="text" class="form-control me-4" placeholder="Enter Name" style="max-width: 400px;">
+            <div *ngIf="myForm.get('user_name')?.touched && myForm.get('user_name')?.invalid">
+              <small *ngIf="myForm.get('user_name')?.errors?.['required']" class="text-danger">Name is required</small>
+              <small *ngIf="myForm.get('user_name')?.errors?.['pattern']" class="text-success">Name can only contain letters and spaces</small>
+            </div>
+          </div>
+          
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="user_1st_mobile_no">Contact No</label>
+            <input formControlName="user_1st_mobile_no" type="text" class="form-control me-4" placeholder="Enter Contact No" style="max-width: 400px;">
+            <div *ngIf="myForm.get('user_1st_mobile_no')?.touched && myForm.get('user_1st_mobile_no')?.invalid">
+              <small *ngIf="myForm.get('user_1st_mobile_no')?.errors?.['required']" class="text-danger">Contact No is required</small>
+              <small *ngIf="myForm.get('user_1st_mobile_no')?.errors?.['pattern']" class="text-success">Enter a valid mobile number</small>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="user_2nd_mobile_no">Alternate Contact No</label>
+            <input formControlName="user_2nd_mobile_no" type="text" class="form-control me-4" placeholder="Enter Alternate Contact No" style="max-width: 400px;">
+            <div *ngIf="myForm.get('user_2nd_mobile_no')?.touched && myForm.get('user_2nd_mobile_no')?.invalid">
+              <small *ngIf="myForm.get('user_2nd_mobile_no')?.errors?.['pattern']" class="text-success">Enter a valid mobile number</small>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="user_wp_no">WhatsApp No.</label>
+            <input formControlName="user_wp_no" type="text" class="form-control me-4" placeholder="Enter WhatsApp No." style="max-width: 400px;">
+            <div *ngIf="myForm.get('user_wp_no')?.touched && myForm.get('user_wp_no')?.invalid">
+              <small *ngIf="myForm.get('user_wp_no')?.errors?.['pattern']" class="text-success">Enter a valid WhatsApp number</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="doj">DOJ</label>
+            <input formControlName="doj" type="date" class="form-control me-4" placeholder="Enter DOJ" style="max-width: 400px;">
+            <div *ngIf="myForm.get('doj')?.touched && myForm.get('doj')?.invalid">
+              <small *ngIf="myForm.get('doj')?.errors?.['required']" class="text-danger">DOJ is required</small>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="dob">DOB</label>
+            <input formControlName="dob" type="date" class="form-control me-4" placeholder="Enter DOB" style="max-width: 400px;">
+            <div *ngIf="myForm.get('dob')?.touched && myForm.get('dob')?.invalid">
+              <small *ngIf="myForm.get('dob')?.errors?.['required']" class="text-danger">DOB is required</small>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="aadhar_no">Aadhaar No</label>
+            <input formControlName="aadhar_no" type="text" class="form-control me-4" placeholder="Enter Aadhaar No" style="max-width: 400px;">
+            <div *ngIf="myForm.get('aadhar_no')?.touched && myForm.get('aadhar_no')?.invalid">
+              <small *ngIf="myForm.get('aadhar_no')?.errors?.['required']" class="text-danger">Aadhar No is required</small>
+              <small *ngIf="myForm.get('aadhar_no')?.errors?.['pattern']" class="text-success">Enter a valid 12-digit Aadhar number</small>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea formControlName="address" class="form-control me-4"></textarea>
+            <div *ngIf="myForm.get('address')?.touched && myForm.get('address')?.invalid">
+              <small *ngIf="myForm.get('address')?.errors?.['required']" class="text-danger">address is required</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div>
+          <label for="photo">Photo</label>
+          <input type="file" class="form-control me-4" id="photo" (change)="onFileChange($event, 'photo')">
+          <div *ngIf="myForm.get('photo')?.touched && !myForm.get('photo')?.value">
+            <small *ngIf="myForm.get('photo')?.errors?.['required']" class="text-danger">Photo is required</small>
+          </div>
+        </div>
+
+          <div class="mx-2">
+            <label for="gender">Gender</label>
+            <select class="form-select form-control" formControlName="gender">
+                <option value="">--Select--</option>
+                <option value="Male">Male</option> 
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+            </select>
+            <div *ngIf="myForm.get('gender')?.touched && myForm.get('gender')?.invalid">
+              <small *ngIf="myForm.get('gender')?.errors?.['required']" class="text-danger">Gender is required</small>
+            </div>
+          </div>
+    
+        <div class="col-md-3">
+          <div class="form-group" [hidden]="disable_driver">
+            <label for="dl_no">DL No.</label>
+            <input formControlName="dl_no" type="text" class="form-control me-4" placeholder="Enter DL No." style="max-width: 400px;">
+
+            <div *ngIf="myForm.get('dl_no')?.touched && myForm.get('dl_no')?.invalid">
+              <small *ngIf="myForm.get('dl_no')?.errors?.['required']" class="text-danger">DL No. is required</small>
+            </div>
+          </div>
+        </div>
+    
+        <div [hidden]="disable_driver">
+          <label for="dl_file">DL File</label>
+          <input class="form-control me-4" type="file" id="dl_file" accept=".jpg,.jpeg,.png,.pdf" (change)="onFileChange($event, 'dl_file')">
+          <div *ngIf="myForm.get('dl_file')?.touched && !myForm.get('dl_file')?.value">
+            <small *ngIf="myForm.get('dl_file')?.errors?.['required']" class="text-danger">DL File is required</small>
+          </div>
+        </div>
+    
+        <div class="col-md-3">
+          <div class="form-group">
+            <button type="submit" class="mt-4 btn btn-primary"  [disabled]="myForm.invalid">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+</div>
+
+</div>
+

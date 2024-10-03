@@ -1,0 +1,116 @@
+.attendance-container {
+    max-width: 700px;
+    margin: 50px auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+  .attendance-header {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .attendance-table {
+    width: 100%;
+  }
+  .attendance-table th {
+    background-color: #336594;
+    color: white;
+    text-align: center;
+  }
+  .attendance-table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .success-message {
+    text-align: center;
+    color: #555;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  .btn-check, .btn-checkout {
+    width: 90px;
+    font-size: 11px;
+  }
+
+  @media(max-width:500px){
+    .btn-check, .btn-checkout {
+      width: 70px;
+      font-size: 10px;
+    }
+
+    .btn-checkout {
+       margin-top: 2px;
+    }
+
+    th,td,.success-message,span{
+      font-size: 12px;
+    }
+    h5,span{
+      font-size: 14px;
+    }
+
+
+
+  }
+
+
+  .gap-2{
+    gap: 5px !important;
+  }
+  
+  .tracker-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+  .tracker-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .tracker-header h5 {
+    flex: 1;
+    margin-bottom: 10px;
+  }
+  .tracker-header .inputs-container {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    /* flex-wrap: wrap; */
+  }
+  .tracker-header input {
+    width: 80px;
+    margin: 5px;
+  }
+  .tracker-table th {
+    background-color: #336594;
+    color: white;
+    text-align: center;
+  }
+  .tracker-table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  @media(max-width:500px){
+    th,td,.success-message,span{
+      font-size: 12px;
+    }
+    h5{
+      font-size: 12px;
+    }
+
+    .form-control{
+        font-size: 10px;
+      }
+      .tracker-header input {
+        width: 70px;
+       height: 20px;
+      }
+      
+  }

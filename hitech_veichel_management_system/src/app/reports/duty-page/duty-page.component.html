@@ -1,0 +1,127 @@
+<div class="container demo">
+    <div class="row mt-2">
+      <div class="col">
+        <h5 class="mt-4 text-blue" style="font-weight: 600;">
+          <b><span class="text-primary">DRIVER DUTY</span></b>&nbsp;
+          <b><span class="text-danger">PAGE</span></b>
+        </h5>
+      </div>
+    </div>
+  
+    <div class="row mt-2">
+
+        <div class="col-md-3">
+            <div class="form-group">
+              <label for="">From Date</label>
+              <input type="date" class="form-select form-control" #f_date>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="roleSelect">To date</label>
+              <input type="date" class="form-select form-control" #t_date>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="roleSelect">Select User</label>
+              <select class="form-select form-control" #u_id>
+                <option value="null">--Select--</option>
+                <option *ngFor="let use of all_user" [value]="use.user_id">{{use?.user_name}}</option>
+              </select>
+            </div>
+          </div>
+
+      <div class="col-md-3 mt-4">
+        <button class="btn btn-primary mt-2" (click)="getDataPerUserId(u_id.value,f_date.value,t_date.value)">Find</button>
+      </div>
+
+    </div>
+</div>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="col-sm printcsv xp mt-2" align="right">
+        <a (click)="printDiv()" id="icon" style="cursor: pointer;"><i class="fas fa-print"></i></a>
+      </div>
+  
+      <div class="table-responsive table-responsive-stack">
+        <!-- <p>
+          From : {{ selectedFromDate }} &nbsp; &nbsp; &nbsp; To : {{ selectedToDate }}
+        </p> -->
+        <!-- Display table only if there is data -->
+        
+          <table class="table table-bordered mt-4" style="font-size: small; border-collapse: collapse; width: 100%;">
+            <thead>
+              <tr>
+                <th rowspan="2" style="border: 1px solid black;">Sl. No.</th>
+                <th rowspan="2" style="border: 1px solid black;">User Name</th>
+                <th rowspan="2" style="border: 1px solid black;">Date</th>
+                
+                <!-- Attendance column with 3 sub-columns -->
+                <th colspan="3" style="border: 1px solid black;">Attendance</th>
+
+                <!-- OverTime column with 5 sub-columns -->
+                <th colspan="4" style="border: 1px solid black;">OverTime</th>
+
+                <th rowspan="2" style="border: 1px solid black;">Total Movement</th>
+                <th rowspan="2" style="border: 1px solid black;">Total Distance Covered</th>
+                <th rowspan="2" style="border: 1px solid black;">Total Filling</th>
+                <th rowspan="2" style="border: 1px solid black;">Total Maintenance</th>
+              </tr>
+
+              <!-- Sub-columns for Attendance and OverTime -->
+              <tr>
+                <!-- Attendance sub-columns -->
+                <th style="border: 1px solid black;">Start Time</th>
+                <th style="border: 1px solid black;">End Time</th>
+                <th style="border: 1px solid black;">Total Time</th>
+
+                <!-- OverTime sub-columns -->
+                <th style="border: 1px solid black;">Start Date</th>
+                <th style="border: 1px solid black;">Start Time</th>
+                <th style="border: 1px solid black;">End Date</th>
+                <th style="border: 1px solid black;">End Time</th>
+            
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Loop through the dyty_data array for table rows -->
+              <tr *ngFor="let data of dyty_data; let i = index">
+                <td style="border: 1px solid black;">{{ i + 1 }}</td>
+                <td style="border: 1px solid black;">{{ data?.user_name || '-'}}</td>
+
+                <!-- Attendance data -->
+                <td style="border: 1px solid black;">{{ data?.movement_start_date|| '-' }}</td>
+                <td style="border: 1px solid black;">{{ data?.check_in_time || '-'}}</td>
+                <td style="border: 1px solid black;">{{ data?.check_out_time  || '-'}}</td>
+                <td style="border: 1px solid black;">{{ data?.timegap || '-'}}</td>
+
+                <!-- OverTime data -->
+                <td style="border: 1px solid black;">{{ data?.movement_start_date || '-' }}</td>
+                <td style="border: 1px solid black;">{{ data?.overtime_check_in_time  || '-' }}</td>
+                <td style="border: 1px solid black;">{{  data?.end_date  || '-'}}</td>
+                <td style="border: 1px solid black;">{{ data?.overtime_check_out_time  || '-' }}</td>
+              
+
+                <td style="border: 1px solid black;">{{ data?.total_vehicles_in_movement || '-'}}</td>
+                <td style="border: 1px solid black;">{{ data?.total_movement_distance_covered || '-'}}</td>
+                <td style="border: 1px solid black;">{{ data?.total_fuel_expenses || '-'}}</td>
+                <td style="border: 1px solid black;">{{ data?.total_vehicle_maintenances || '-'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        
+
+        <!-- Display a message when there is no data -->
+        <!-- <div *ngIf="paginatedData.length === 0" class="text-danger text-center">
+          No Data Available for the selected criteria.
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

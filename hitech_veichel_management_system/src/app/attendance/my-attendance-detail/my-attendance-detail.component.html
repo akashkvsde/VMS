@@ -1,0 +1,46 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+          <div class="container tracker-container">
+            <div class="tracker-header">
+              <h5>Attendance Tracker</h5>
+              <div class="inputs-container">
+                <input type="date" #from_date class="form-control">
+                <input type="date" #to_date class="form-control" (change)="getDate(from_date.value,to_date.value)">
+              </div>
+            </div>
+            <div class="table-responsive table-responsive-stack">
+              <table class="table table-bordered tracker-table">
+                <thead>
+                  <tr>
+                    <th>Sl No</th>
+                    <th>User Name</th>
+                    <th>Date</th>
+                    <th>Check In Time</th>
+                    <th>Check Out Time</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let attendance of attendanceData; let i = index">
+                    <td>{{ i + 1 }}</td> <!-- Serial number -->
+                    <td>{{ attendance?.user?.user_name }}</td>
+                    <td>{{ attendance?.date }}</td>
+                    <td>{{ attendance?.check_in_time }}</td>
+                    <td>{{ attendance?.check_out_time }}</td>
+                    <td>{{ attendance?.status === '1' ? 'Present' : 'Absent' }}</td> <!-- Conditionally showing status -->
+                  </tr>
+                  <!-- Additional rows can be added here if needed -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+
+        </div>
+    </div>
+</div>
+
+

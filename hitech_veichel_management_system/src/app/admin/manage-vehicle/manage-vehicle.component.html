@@ -1,0 +1,168 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+            <h5 class="mt-4 text-blue" style="font-weight: 600;"><b><span class="text-primary">MANAGE</span></b>
+                <b><span class="text-danger">VEHICLE</span></b>
+            </h5>
+        </div>
+    </div>
+    <div class="row mt-2" class="vehicle">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="roleSelect">Select Category</label>
+                <select class="form-select form-control" #vehi (change)="getVehicle(vehi.value)">
+                  <option value="" disabled selected>Select a category</option>
+                  <option *ngFor="let ca of cat" value="{{ca.vehicle_category_id}}">{{ca.vehicle_category_name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+   
+    <div class="card p-2 mt-2">
+        <div class="row">
+            <div class="col">
+                <div class="table-responsive table-responsive-stack">
+                    <table class="table" style="font-size: small;">
+                        <thead>
+                            <tr>
+                                <th>Sl. No.</th>
+                                <th>Vehicle Name</th>
+                                <th>Owner Name</th>
+                                <th>RTO No.</th>
+                                <th>Model</th>
+                                <th>Fuel Type</th>
+                                <th>Purchase Date</th>
+                                <th>RC No.</th>
+                                <th>FastTag No.</th>
+                                <th>Chassis No.</th>
+                                <th>Engine No.</th>
+                                <th class="demo">Receipt</th>
+                                <th class="demo">Action</th>
+                                <th class="demo">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of vehicle; let i = index">
+                                <td data-label="Sl. No.">{{ i + 1 }}</td>
+                                <td data-label="Vehicle Name">{{ a.vehicle_name || 'NA'}}</td>
+                                <td data-label="Owner Name">{{ a.owner.vehicle_owner_name || 'NA'}}</td>
+                                <td data-label="RTO No.">{{ a.vehicle_rto_no || 'NA'}}</td>
+                                <td data-label="Model">{{ a.vehicle_model || 'NA'}}</td>
+                                <td data-label="Fuel Type">{{ a.vehicle_fuel_type || 'NA'}}</td>
+                                <td data-label="Purchase Date">{{ a.vehicle_purchase_date || 'NA'}}</td>
+                                <td data-label="RC No.">{{ a.vehicle_rc_no || 'NA'}}</td>
+                                <td data-label="FastTag No.">{{ a.vehicle_fastag_no || 'NA'}}</td>
+                                <td data-label="Chassis No.">{{ a.vehicle_chassis_no || 'NA'}}</td>
+                                <td data-label="Engine No.">{{ a.vehicle_engine_no || 'NA'}}</td>
+                                <td class="demo" data-label="Receipt Download">
+                                    <a [href]="a.vehicle_rc_file ? fileurl + '/' + a.vehicle_rc_file : 'https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png'"
+                                       target="_blank"
+                                       [attr.download]="a.vehicle_rc_file ? fileurl + '/' + a.vehicle_rc_file : null">
+                                        <button id="icon" class="btn btn-primary btn-xs">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" (click)="editUser(a)">Edit</button>
+                                </td>
+                                <td class="demo" data-label="Active">
+                                    <!-- Toggle switch for active/inactive status -->
+                                    <label class="switch">
+                                        <input type="checkbox" [checked]="a.is_active === 1" (change)="toggleActiveStatus(a)">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <!-- Display this div when there is no data -->
+                    <div class="text-danger text-center" *ngIf="message">
+                        {{message}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 1 for edit -->
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Vehicle</h5>
+                            <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form [formGroup]="editVehicleForm" (ngSubmit)="onSubmit()">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="vehicle_name">Vehicle Name</label>
+                                    <input type="text" id="vehicle_name" formControlName="vehicle_name" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle_rto_no">RTO No.</label>
+                                    <input type="text" id="vehicle_rto_no" formControlName="vehicle_rto_no" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle_model">Model</label>
+                                    <input type="text" id="vehicle_model" formControlName="vehicle_model" class="form-control" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vehicle_fuel_type">Fuel Type</label>
+                                    <select id="vehicle_fuel_type" formControlName="vehicle_fuel_type" class="form-control">
+                                        <option value="">Select Fuel Type</option>
+                                        <option value="Petrol">Petrol</option>
+                                        <option value="Diesel">Diesel</option>
+                                        <option value="CNG">CNG</option>
+                                        <option value="EV">EV</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="vehicle_purchase_date">Purchase Date</label>
+                                    <input type="date" id="vehicle_purchase_date" formControlName="vehicle_purchase_date" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle_rc_no">RC No.</label>
+                                    <input type="text" id="vehicle_rc_no" formControlName="vehicle_rc_no" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle_fastag_no">FastTag No.</label>
+                                    <input type="text" id="vehicle_fastag_no" formControlName="vehicle_fastag_no" class="form-control" />
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="vehicle_fitness_end">Fitness No.</label>
+                                    <input type="text" id="vehicle_fitness_end" formControlName="vehicle_fitness_end" class="form-control" />
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="vehicle_chassis_no">Chassis No.</label>
+                                    <input type="text" id="vehicle_chassis_no" formControlName="vehicle_chassis_no" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle_engine_no">Engine No.</label>
+                                    <input type="text" id="vehicle_engine_no" formControlName="vehicle_engine_no" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicle_rc_file">RC File</label>
+                                    <input type="file" id="vehicle_rc_file" (change)="onFileChange($event)" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

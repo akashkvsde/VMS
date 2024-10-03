@@ -1,0 +1,34 @@
+@media(max-width:450px){
+th,td{
+    font-size: 10px;
+}
+}
+
+
+@media print{
+    .demo{
+       display: none;
+     }
+    .vehicle{
+       display: none;
+     }
+     #icon{
+      display:none;
+     }
+     .pagination-controls {
+      display: none !important;
+    }
+  
+  
+     .table-responsive {
+      overflow: visible; /* Adjust overflow for print */
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .pagination-controls{
+    display: none;
+  }
+   }
+  

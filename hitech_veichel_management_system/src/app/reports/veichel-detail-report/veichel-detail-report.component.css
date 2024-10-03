@@ -1,0 +1,21 @@
+
+@media print{
+  .demo{
+     display: none;
+   }
+  .vehicle{
+     display: none;
+   }
+   #icon{
+    display:none;
+   }
+
+
+   .table-responsive {
+    overflow: visible; /* Adjust overflow for print */
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+ }

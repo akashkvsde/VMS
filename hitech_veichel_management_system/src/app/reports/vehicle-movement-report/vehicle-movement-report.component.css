@@ -1,0 +1,71 @@
+
+
+@media print{
+  .demo{
+     display: none;
+   }
+  .vehicle{
+     display: none;
+   }
+   #icon{
+    display:none;
+   }
+   .pagination-controls
+   {
+    display: none !important;
+  }
+
+   .table-responsive {
+    overflow: visible; /* Adjust overflow for print */
+}
+.table {
+  width: 100%;
+  /* border-collapse: collapse; */
+}
+ }
+
+
+ .table-responsive-stack {
+  overflow: auto;
+  max-width: 100%;
+}
+
+@media print {
+  .table-responsive-stack {
+    overflow: visible !important; /* Remove scrollbar on print */
+    display: block;
+    width: 100%;
+  }
+
+  /* Ensure header is visible on every page */
+  thead {
+    display: table-header-group;
+  }
+
+  /* Ensure rows are printed correctly */
+  tbody {
+    display: table-row-group;
+  }
+
+  /* Hide elements that shouldn't be printed */
+  .no-print {
+    display: none;
+  }
+
+  /* Optional: Adjust table layout and font size for better fit */
+  table {
+    font-size: 8pt;
+
+  }
+
+  th, td {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+  }
+
+  @page {
+    size: auto; /* Auto size page */
+    margin: 10mm; /* Adjust margins as needed */
+  }
+}
+

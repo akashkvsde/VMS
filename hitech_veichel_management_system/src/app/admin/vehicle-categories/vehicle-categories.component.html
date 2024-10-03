@@ -1,0 +1,53 @@
+<div class="container" id="con">
+    <h5 class="mt-4 text-blue" style="font-weight: 600;">
+        <b><span class="text-primary">MANAGE</span></b>
+        <b><span class="text-danger">VEHICLE CATEGORY</span></b>
+    </h5>
+     <div class="row">
+        <div class="col">
+            <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="vehicle_category_name">Category Name</label>
+                        <input type="text" formControlName="vehicle_category_name" id="vehicle_category_name" class="form-control" />
+                        <div *ngIf="categoryForm.get('vehicle_category_name')?.invalid && categoryForm.get('vehicle_category_name')?.touched" class="text-danger">
+                            Only alphabets and spaces are allowed.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">{{ editMode ? 'Update' : 'Add' }}</button>
+                </div>
+            </form>
+        </div>
+     </div>
+    <!-- Add Category Button -->
+    <!-- <button class="btn btn-primary mt-2" data-toggle="modal" data-target="#addEditModal" (click)="resetForm()">Add Vehicle Category</button> -->
+
+    <!-- Example Table (Optional, not storing in array) -->
+    <div class="table-responsive mt-2">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sl. No.</th>
+                    <th>Category Name</th>
+                    <th>Entry By</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let category of categories; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ category.vehicle_category_name }}</td>
+                    <td>{{ category.entry_by }}</td>
+                    <td>
+                       <button class="btn btn-primary btn-sm"  (click)="editCategory(category)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

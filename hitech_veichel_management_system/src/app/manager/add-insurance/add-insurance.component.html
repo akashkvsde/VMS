@@ -1,0 +1,137 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+            <h6 class="mt-4 text-blue" style="font-weight: 600;">
+                {{ isEditing ? 'EDIT INSURANCE' : 'ADD INSURANCE' }} <span class="text-danger">BY MANAGER</span>
+            </h6>
+        </div>
+    </div>
+    <form #insuranceForm="ngForm" (ngSubmit)="onSubmit(insuranceForm)" #insuranceFormRef>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="vehicle_id">Select Vehicle</label>
+                    <select class="form-select form-control" [(ngModel)]="addInsurance.vehicle_id" name="vehicle_id" required>
+                        <option value="">--Select--</option>
+                        <option *ngFor="let vehicle of vehicles" [value]="vehicle.vehicle_id">{{vehicle.vehicle_name}}</option>
+                    </select>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.vehicle_id" class="text-danger">Vehicle selection is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="insurance_company_name">Insurance Company Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="addInsurance.insurance_company_name" name="insurance_company_name" placeholder="Enter Insurance Company Name" style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.insurance_company_name" class="text-danger">Insurance Company Name is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="agent_name">Agent Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="addInsurance.agent_name" name="agent_name" placeholder="Enter Agent Name" style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.agent_name" class="text-danger">Agent Name is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="agent_mobile">Agent Mobile No.</label>
+                    <input type="text" class="form-control" [(ngModel)]="addInsurance.agent_mobile" name="agent_mobile" placeholder="Enter Agent Mobile No." style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.agent_mobile" class="text-danger">Agent Mobile No. is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="insurance_no">Insurance No.</label>
+                    <input type="text" class="form-control" [(ngModel)]="addInsurance.insurance_no" name="insurance_no" style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.insurance_no" class="text-danger">Insurance No. is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="insurance_start_date">Insurance Start Date</label>
+                    <input type="date" class="form-control" [(ngModel)]="addInsurance.insurance_start_date" name="insurance_start_date" style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.insurance_start_date" class="text-danger">Insurance Start Date is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="insurance_end_date">Insurance End Date</label>
+                    <input type="date" class="form-control" [(ngModel)]="addInsurance.insurance_end_date" name="insurance_end_date" style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !addInsurance.insurance_end_date" class="text-danger">Insurance End Date is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="insurance_file">Insurance File</label>
+                    <input type="file" class="form-control" (change)="onFileChange($event)" name="insurance_file" style="max-width: 400px;" required>
+                    <div *ngIf="insuranceForm.submitted && !insurance_file" class="text-danger">Insurance File is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <button type="submit">{{ isEditing ? 'Update' : 'Submit' }}</button>
+            </div>
+        </div>
+    </form>
+    
+    <!-- Insurance Report Section -->
+   
+<!-- Insurance Report Section -->
+<div class="row mt-4">
+    <div class="col">
+      <h6 class="mt-4 text-blue" style="font-weight: 600;">
+        <b><span class="text-primary">INSURANCE </span></b>
+        <b><span class="text-danger">REPORT</span></b>
+      </h6>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="roleSelect">Select Vehicle</label>
+        <select class="form-select form-control" [(ngModel)]="selectedVehicle" name="vehiclee" (change)="getInsurance(selectedVehicle)">
+          <option *ngFor="let vehi of vehicles" [value]="vehi.vehicle_id">{{vehi.vehicle_name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <div class="table-responsive table-responsive-stack">
+        <table class="table" *ngIf="data.length > 0">
+          <thead>
+            <tr>
+              <th>Sl. No.</th>
+              <th>Vehicle Name</th>
+              <th>Vehicle No.</th>
+              <th>Agent Name</th>
+              <th>Mobile No</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let insurance of data; let i = index">
+              <td>{{i + 1}}</td>
+              <input type="hidden" [(ngModel)]="insurance.vehicle_insurance_id" name="vehicle_insurance_id">
+              <td>{{insurance.vehicle.vehicle_name}}</td>
+              <td>{{insurance.vehicle.vehicle_rto_no}}</td>
+              <td>{{insurance.vehicle_insurance_agent_name}}</td>
+              <td>{{insurance.vehicle_insurance_agent_mobile_no}}</td>
+              <td>{{insurance.vehicle_insurance_start_date}}</td>
+              <td>{{insurance.vehicle_insurance_end_date}}</td>
+              <td>
+                <button class="btn btn-warning btn-sm" (click)="editInsurance(insurance)">Edit</button>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="message" class="text-danger">{{noDataMessage}}</div>
+      </div>
+    </div>
+  </div>
+</div>

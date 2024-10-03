@@ -1,0 +1,365 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-blue" style="font-weight: 600;">UNOFFICIAL FUEL VOUCHER <span class="text-danger">BY MANAGER</span></h6>
+           <div class="btn-group my-2">
+            <button type="button" class="btn btn-secondary" style="font-size: 11px;font-weight: 600;" [routerLink]="['/dashboard/manager/fuel-filling']">OFFICIAL</button>
+            <button type="button" class="btn btn-primary"  style="font-size: 11px;font-weight: 600;">UNOFFICIAL</button>
+          </div>
+        </div>
+    </div>
+
+    <div class="card p-2">
+      <form [formGroup]="fillingForm" (ngSubmit)="onSubmit()">
+        <div class="row mt-2">
+
+          <!-- Vehicle -->
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="other_vehicle_id">Select Vehicle</label>
+              <div class="input-group">
+                <select class="custom-select" id="other_vehicle_id" formControlName="other_vehicle_id">
+                  <option value="">--Select--</option>
+                  <option *ngFor="let data of all_veichels" [value]="data.other_vehicle_id">{{ data.other_vehicle_number }},{{ data.other_owner_name     }}</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#exampleModal3">+Add</button>
+                </div>
+              </div>
+              <div *ngIf="fillingForm.get('other_vehicle_id')?.invalid && fillingForm.get('other_vehicle_id')?.touched" class="text-danger">
+                Vehicle is required
+              </div>
+            </div>
+          </div>
+  
+          <!-- Driver -->
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" class="form-select form-control" formControlName="quantity" />
+              <div *ngIf="fillingForm.get('quantity')?.invalid && fillingForm.get('quantity')?.touched" class="text-danger">
+               Quantity Is Required
+              </div>
+            </div>
+          </div>
+  
+          <!-- Filling Date -->
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fillingDate">Filling Date</label>
+              <input id="fillingDate" type="date" class="form-control" formControlName="filling_date">
+              <div *ngIf="fillingForm.get('filling_date')?.invalid && fillingForm.get('filling_date')?.touched" class="text-danger">
+                Filling Date is required
+              </div>
+            </div>
+          </div>
+  
+          <!-- Filling Station Name -->
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="station">Filling Station Name</label>
+              <div class="input-group">
+                <select class="custom-select" id="station" formControlName="filling_station">
+                  <option value="">--Select--</option>
+                  <option *ngFor="let data of all_filling_stations" [value]="data.fuel_station_id">{{ data.fuel_station_name }}-{{ data.location }}</option>
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#exampleModal">+Add</button>
+                </div>
+              </div>
+              <div *ngIf="fillingForm.get('filling_station')?.invalid && fillingForm.get('filling_station')?.touched" class="text-danger">
+                Filling Station Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="row mt-2">
+          <!-- Approved by -->
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="quantity">Approved by</label>
+              <input id="quantity" type="text" class="form-control" placeholder="Approved by" formControlName="approved_by">
+              <div *ngIf="fillingForm.get('approved_by')?.invalid && fillingForm.get('approved_by')?.touched" class="text-danger">
+                Approved by is required
+              </div>
+            </div>
+          </div>
+
+             <!-- KM Reading -->
+             <div class="col-md-3">
+              <div class="form-group">
+                <label for="kmReading">KM Reading</label>
+                <input id="kmReading" type="number" class="form-control" placeholder="KM Reading" formControlName="last_km_reading">
+                <div *ngIf="fillingForm.get('last_km_reading')?.invalid && fillingForm.get('last_km_reading')?.touched" class="text-danger">
+                  KM Reading is required
+                </div>
+              </div>
+            </div>
+
+          <!-- Filling Bill -->
+        </div>
+  
+        <div class="row mt-2">
+          <div class="col">
+            <button type="submit" class="btn btn-primary" [disabled]="fillingForm.invalid">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  <div class="row mt-2">
+    <div class="col">
+       <h6 class="mt-4 text-blue" style="font-weight: 600;">FUEL VOUCHER <span class="text-danger">DETAILS</span></h6>
+    </div>
+    </div>
+
+  <div class="row justify-content-center xp" >
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body p-4 text-black row g-3 d-flex">
+                <div class="col-md-4 d-flex">
+                  <label for="inputState" class="form-label">From:</label>
+               <input type="date" class="form-control" name="fdate" #fDate >
+               <!-- <input name="fdate" class="form-control text-center" #fDate placeholder="Enter Date From"> -->
+                </div>
+                <div class="col-md-4 d-flex">
+                    <label for="inputState" class="form-label">To:</label>
+                 <input type="date" class="form-control" name="tdate" #tDate>
+              
+                 <!-- <input class="form-control text-center" name="tdate" #tDate placeholder="Enter Date To"> -->
+                  </div>
+                  <div class="col-md-2">
+                  <button type="submit" (click)="getFuelData(tDate.value,fDate.value)">
+                    Search
+                   </button>
+                </div>
+         </div>
+    </div>
+
+<div class="card p-2">
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive table-responsive-stack">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sl. No.</th>
+                            <th>Owner Name</th>
+                            <th>Vehicle No.</th>
+                            <th>Approved By.</th>
+                            <th>Filling Date</th>
+                            <th>Station Name</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                            <th>KM Reading</th>
+                            <th>Document</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of all_filling_data ; let i = index">
+                            <td data-label="Sl. No.">{{i+1}}</td>
+                            <td data-label="Vehicle Name">{{data?.other_vehicle?.other_owner_name || '-'}}</td>
+                            <td data-label="Vehicle No.">{{data?.other_vehicle?.other_vehicle_number || '-'}}</td>
+                            <td data-label="Vehicle No.">{{data?.approved_by || '-'}}</td>
+                            <td data-label="Filling Date">{{data?.filling_date || '-'}}</td>
+                            <td data-label="Station Name">{{data?.fillingstations?.fuel_station_name || '-'}}{{data?.fillingstations?.location}}</td>
+                           <td data-label="Quantity">{{data?.quantity || '-'}}</td>
+                            <td data-label="Amount">{{data?.amount || '-'}}</td>
+                            <td data-label="Amount">{{data?.last_km_reading || '-'}}</td>
+                           <td data-label="Document"><a [href]="apiUrl+data.filling_bill" target="_blank" *ngIf="data.filling_bill"><img src="assets/pdficon.png" alt="" style="width: 50px; height: 50px;"></a></td>
+                           <td  *ngIf="!data.amount"><button class="btn text-primary" data-toggle="modal" data-target="#exampleModal2" (click)="getFillId(data.other_fuel_id)"><i class="fa-regular fa-pen-to-square"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <h5 class="d-flex align-item-center justify-content-center">{{message}} </h5>
+</div>
+
+
+
+<!----------modal1-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Filling <span class="text-danger">Station</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="fillingStationForm" (ngSubmit)="onSubmitStation()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="fuelStationName">Filling Station Name</label>
+              <input id="fuelStationName" type="text" class="form-control me-4" style="max-width: 400px;" formControlName="fuel_station_name">
+              <div *ngIf="fillingStationForm.get('fuel_station_name')?.invalid && (fillingStationForm.get('fuel_station_name')?.dirty || fillingStationForm.get('fuel_station_name')?.touched)">
+                <div *ngIf="fillingStationForm.get('fuel_station_name')?.errors?.['required']">
+                  Filling Station Name is required.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="location">Location</label>
+              <input id="location" type="text" class="form-control me-4" style="max-width: 400px;" formControlName="location">
+              <div *ngIf="fillingStationForm.get('location')?.invalid && (fillingStationForm.get('location')?.dirty || fillingStationForm.get('location')?.touched)">
+                <div *ngIf="fillingStationForm.get('location')?.errors?.['required']">
+                  Location is required.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" [disabled]="fillingStationForm.invalid">Save</button>
+        </div>
+      </form>
+      
+      
+    </div>
+  </div>
+</div>
+
+
+<!---------modal-2-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Image and <span class="text-danger">Amount</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      
+      <form [formGroup]="fillingFormImg" (ngSubmit)="onUpdate()">
+        <div class="modal-body">
+          <div class="row">
+      
+            <!-- Filling Amount -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="amount">Filling Amount</label>
+                <input
+                  id="amount"
+                  type="number"
+                  class="form-control"
+                  placeholder="Filling Amount"
+                  formControlName="amount">
+                <div *ngIf="fillingFormImg.get('amount')?.invalid && fillingFormImg.get('amount')?.touched" class="text-danger">
+                  Filling Amount is required
+                </div>
+              </div>
+            </div>
+      
+            <!-- Filling Bill (Image) -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="fillingBill">Fuel Meter (Image)</label>
+                <input
+                  id="fillingBill"
+                  type="file"
+                  class="form-control"
+                  (change)="onFileChange($event)">
+                <div *ngIf="fileError" class="text-danger">
+                  A valid image file is required (Max 2MB).
+                </div>
+                <div *ngIf="fillingFormImg.get('filling_bill')?.invalid && fillingFormImg.get('filling_bill')?.touched && !fileError" class="text-danger">
+                  Fuel Meter image is required
+                </div>
+              </div>
+            </div>
+      
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" [disabled]="fillingFormImg.invalid || fileError">Save</button>
+        </div>
+      </form>
+      
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</div>
+
+
+<!---------modal-3-->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Vehicle <span class="text-danger">Details</span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+        
+        <form [formGroup]="vehicleAddform" (ngSubmit)="onAddother()">
+          <div class="modal-body">
+            <div class="row">
+        
+              <!-- vehicle -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="amount">Vehicle Number</label>
+                  <input
+                    id="amount"
+                    type="text"
+                    class="form-control"
+                    placeholder="Vehicle Number"
+                    formControlName="other_vehicle_number">
+                  <div *ngIf="vehicleAddform.get('other_vehicle_number')?.invalid && vehicleAddform.get('other_vehicle_number')?.touched" class="text-danger">
+                   Vehicle Number Is required
+                  </div>
+                </div>
+              </div>
+        
+              <!-- woner -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="other_owner_name">Owner Name</label>
+                  <input
+                    id="other_owner_name"
+                    type="text"
+                    class="form-control"
+                    placeholder="Owner Name"
+                    formControlName="other_owner_name"
+                     >
+                     <div *ngIf="vehicleAddform.get('other_owner_name')?.invalid && vehicleAddform.get('other_owner_name')?.touched" class="text-danger">
+                       Woner Name Is Required
+                    </div>
+                </div>
+              </div>
+        
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="vehicleAddform.invalid || fileError">Save</button>
+          </div>
+        </form>
+        
+        
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

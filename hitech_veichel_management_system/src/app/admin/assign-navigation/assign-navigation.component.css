@@ -1,0 +1,17 @@
+.my{
+    width: 300px;
+    margin-top: 10px;
+}
+.input{
+    margin-top: 10px;
+}
+@media (max-width:600px){
+  
+    h6{
+        text-align: center;
+    }
+    .my{
+        width: auto;
+    }
+   
+}

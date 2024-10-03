@@ -1,0 +1,92 @@
+<div class="container demo">
+    <div class="row mt-2">
+      <div class="col">
+        <h5 class="mt-4 text-blue" style="font-weight: 600;">
+          <b><span class="text-primary">ALL</span></b>&nbsp;
+          <b><span class="text-danger">ATTENDANCE</span></b>
+        </h5>
+      </div>
+    </div>
+  
+    
+        <form class="mt-2" [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+          <div class="row mt-2">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="fromDate">From Date</label>
+              <input type="date" class="form-select form-control" formControlName="from_date">
+            </div>
+          </div>
+      
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="toDate">To Date</label>
+              <input type="date" class="form-select form-control" formControlName="to_date">
+            </div>
+          </div>
+      
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="roleSelect">Select Role</label>
+              <select class="form-select form-control" #role formControlName="role_id" (change)="selectUserRole(role.value)">
+                <option value="">--Select--</option>
+                <option *ngFor="let data of all_role" [value]="data.role_id">{{data.role_name}}</option>
+              </select>
+            </div>
+          </div>
+      
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="userSelect">Select User</label>
+              <select class="form-select form-control" formControlName="user_id">
+                <option value="">--Select--</option>
+                <option *ngFor="let use of all_user" [value]="use.user_id">{{use.user_name}}</option>
+              </select>
+            </div>
+          </div>
+      
+          <div class="col-md-2 mt-4 xx">
+            <button class="btn btn-primary mt-2" type="submit">Find</button>
+          </div>
+        </div>
+        </form>
+      
+      
+</div>
+
+
+<div class="container mt-5">
+   <div class="row">
+    <div class="col">
+      <div class="col-sm printcsv xp mt-2" align="right">
+        <a (click)="printDiv()" id="icon" style="cursor: pointer;"><i class="fas fa-print"></i></a>
+      </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="thead-secondary">
+              <tr *ngIf="!data_message">
+                <th scope="col">Sl No</th>
+                <th scope="col">User Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Date</th>
+                <th scope="col">Check In Time</th>
+                <th scope="col">Check Out Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let att of this.all_tatble_data;index as i">
+                <td>{{i+1}}</td>
+                <td>{{att?.user_name || '-'}}</td>
+                <td>{{att?.location || '-'}}</td>
+                <td>{{att?.date || '-'}}</td>
+                <td>{{att?.check_in_time || '-'}}</td>
+                <td>{{att?.check_in_time || '-'}}</td>
+              </tr>
+              <!-- Additional rows can go here -->
+            </tbody>
+          </table>
+        </div>
+       <h5 class="d-flex align-item-center justify-content-center bg-secondary">{{data_message}}</h5>
+    </div>
+   </div>
+</div>

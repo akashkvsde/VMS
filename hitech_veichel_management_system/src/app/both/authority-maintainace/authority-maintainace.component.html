@@ -1,0 +1,82 @@
+
+<div class="container">
+  <div class="row mt-2">
+    <div class="col">
+      <h6 class="mt-4 text-blue" style="font-weight: 600;">
+        AUTHORITY <span class="text-danger">MAINTENANCE</span>
+      </h6>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="form-group">
+      <select class="form-select form-control" (change)="onStatusChange($event)">
+        <option value="Pending" selected>Pending</option>
+        <option value="Approved">Approved</option>
+        <option value="Not Approved">Not Approved</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="table-responsive table-responsive-stack">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Sl. No.</th>
+          <th>Vehicle Name</th>
+          <th>Vehicle No.</th>
+          <th>Driver</th>
+          <th>Manager</th>
+          <th>Problem</th>
+          <th>Other</th>
+          <th>Expected Amount</th>
+          <th>Service Center</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Check if there are vehicles in the list -->
+
+        <!-- Display vehicles if available -->
+        <tr *ngFor="let vehicle of vehicles; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ vehicle.vehicle.vehicle_name }}</td>
+          <td>{{ vehicle.vehicle.vehicle_rc_no }}</td>
+          <td>{{ vehicle.driver?.user_name || 'N/A' }}</td>
+          <td>{{ vehicle.manager?.user_name || 'N/A' }}</td>
+          <td>{{ vehicle.maintenance_problem.vehicle_problems_name }}</td>
+          <td>{{ vehicle.maintenance_problems_other_details || 'N/A' }}</td>
+          <td>{{ vehicle.exp_amt || 'N/A' }}</td>
+          <td>{{ vehicle.garage.garage_name  }}</td>
+          <td>{{ vehicle.maintenance_start_date }}</td>
+          <td style="white-space: nowrap;">
+            <button *ngIf="vehicle.maintenance_approve_status === 'Pending'" 
+                    class="btn btn-success btn-sm" 
+                    (click)="changeStatus(vehicle, 'Approved')">Approve
+              <!-- <i class="fas fa-check"></i> Check icon for approval -->
+            </button> &nbsp;
+            <button *ngIf="vehicle.maintenance_approve_status === 'Pending'" 
+                    class="btn btn-danger btn-sm" 
+                    (click)="changeStatus(vehicle, 'Not Approved')">
+                    Cancel
+              <!-- <i class="fas fa-times"></i> Times icon for cancellation -->
+            </button>
+            <span *ngIf="vehicle.maintenance_approve_status === 'Not approved'" class="text-danger">
+              Canceled
+            </span>
+            <span *ngIf="vehicle.maintenance_approve_status === 'Not Approved'" class="text-danger">
+              Canceled
+            </span>
+            <span *ngIf="vehicle.maintenance_approve_status === 'Approved'" class="text-success">
+              Approved
+            </span>
+          </td>
+        </tr>
+                <tr *ngIf="vehicles.length === 0">
+          <td colspan="10" class="text-center">No data found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

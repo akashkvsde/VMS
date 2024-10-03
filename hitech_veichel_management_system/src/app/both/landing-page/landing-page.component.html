@@ -1,0 +1,131 @@
+<div class="container-fluid">
+  <section class="sec-one">
+    <div class="row mb-2">
+      <div class="col-12 mt-3 mb-1">
+        <h5 class="text-uppercase text-blue" style="font-weight: 600;">Smart Driving, Better Management</h5>
+        <p>Optimizing Every Journey with Advanced Vehicle Solutions</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-md-12 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between p-md-1">
+              <div class="d-flex flex-row">
+                <div class="align-self-center">
+                  <img src="assets/img/Vehicles.png" alt="img" width="50px">
+                </div>
+                <div>
+                  <h5 class="m-2">Total Number Of Vehicle</h5>
+                </div>
+              </div>
+              <div class="align-self-center">
+                <h5 class="mb-0 text-danger">{{total_vehicle | number:'1.0-0'}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-md-12 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between p-md-1">
+              <div class="d-flex flex-row">
+                <div class="align-self-center">
+                  <img src="assets/img/Drivers Duty.png" alt="img" width="50px">
+                </div>
+                <div>
+                  <h5 class="m-2">Total Active Drivers</h5>
+                </div>
+              </div>
+              <div class="align-self-center">
+                <h5 class="mb-0 text-danger">{{total_driver | number:'1.0-0'}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-md-12 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between p-md-1">
+              <div class="d-flex flex-row">
+                <div class="align-self-center">
+                  <img src="assets/img/Vehicle Movements.png" alt="img" width="50px">
+                </div>
+                <div>
+                  <h5 class="m-2">Active Vehicles</h5>
+                </div>
+              </div>
+              <div class="align-self-center">
+                <h5 class="mb-0 me-4 text-danger">{{running_vehicle | number:'1.0-0'}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-md-12 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between p-md-1">
+              <div class="d-flex flex-row">
+                <div class="align-self-center">
+                  <img src="assets/img/Vehicles Managment.png" alt="img" width="50px">
+                </div>
+                <div>
+                  <h5 class="m-2">Vehicles Under Maintenance</h5>
+                </div>
+              </div>
+              <div class="align-self-center">
+                <h5 class="mb-0 me-4 text-danger">{{maintain_vehicle | number:'1.0-0'}}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+    <section class="sec-two">
+      <div class="row mb-2">
+        <div class="col-12 mt-3 mb-1">
+          <h5 class="text-uppercase text-blue"  style="font-weight: 600;">Smart Driving, Better Management</h5>
+          <p>Optimizing Every Journey with Advanced Vehicle Solutions</p>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Outer loop to iterate over each navigation category -->
+        <div class="col-xl-6 col-md-12 mb-4" *ngFor="let category of allnavigations">
+          <!-- Inner loop to iterate over each item in the navigation category -->
+          <div *ngFor="let nav of category.nav_items">
+            <div class="card" [routerLink]="getNavUrlSegments(nav.nav_url)">
+              <div class="card-body">
+                <div class="d-flex justify-content-between p-md-1">
+                  <div class="d-flex flex-row">
+                    <div class="align-self-center">
+                      <img src="assets/img/Vehicles.png" alt="img" width="50px">
+                    </div>
+                    <div>
+                      <h5 class="m-2">{{ nav.nav_name }}</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+
+    <section>
+        <!-- Vehicle animation below the form -->
+        <div class="vehicle-container mt-4">
+          <img src="assets/img/110-1103741_ambulance-transparent-images-ambulance-png-png-download-removebg-preview.png" alt="Moving Vehicle" class="moving-vehicle">
+        </div>
+    </section>
+  </div>

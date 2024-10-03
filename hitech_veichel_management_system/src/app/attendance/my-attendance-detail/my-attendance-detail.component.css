@@ -1,0 +1,53 @@
+.tracker-container {
+    max-width: 700px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+  }
+  .tracker-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .tracker-header h5 {
+    flex: 1;
+    margin-bottom: 10px;
+  }
+  .tracker-header .inputs-container {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    /* flex-wrap: wrap; */
+  }
+  .tracker-header input {
+    width: 70px;
+    margin: 5px;
+  }
+  .tracker-table th {
+    background-color: #336594;
+    color: white;
+    text-align: center;
+  }
+  .tracker-table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  @media(max-width:500px){
+    th,td,.success-message,span{
+      font-size: 12px;
+    }
+    h5{
+      font-size: 12px;
+    }
+
+    .form-control{
+        font-size: 10px;
+      }
+      .tracker-header input {
+        width: 70px;
+       height: 20px;
+      }
+  }

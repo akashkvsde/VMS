@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+            <h5 class="mt-4 text-blue" style="font-weight: 600;"><b><span class="text-primary">VEHICLE DETAIL </span></b>
+                <b><span class="text-danger">REPORT</span></b>
+            </h5>
+        </div>
+    </div>
+    <div class="row mt-2" class="vehicle">
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <label for="roleSelect">Select Category</label>
+                <select class="form-select form-control"  #vehi (change)="getVehicle(vehi.value)">
+                  <option value="" disabled selected>Select a category</option>
+                  <option *ngFor="let ca of cat" value="{{ca.vehicle_category_id}}">{{ca.vehicle_category_name}}</option>
+                   </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm printcsv xp mt-2" align="right">
+        <a (click)="printDiv()" id="icon" ><i class="fas fa-print"></i></a>
+         <!-- <a> <i class="fas fa-file-excel"></i></a> -->
+     </div>
+  <div class="card p-2 mt-2">
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive table-responsive-stack">
+              <table *ngIf="vehicle.length > 0" class="table" style="font-size: small;">
+                <thead>
+                    <tr>
+                        <th>Sl. No.</th>
+                        <th>Vehicle Name</th>
+                        <th>Owner Name</th>
+                        <th>RTO No.</th>
+                        <th>Model</th>
+                        <th>Fuel Type</th>
+                        <th>Purchase Date</th>
+                        <th>RC No.</th>
+                        <th>FastTag No.</th>
+                        <th>Fitness No.</th>
+                        <th>Chassis No.</th>
+                        <th>Engine No.</th>
+                        <th class="demo">Receipt Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let a of vehicle; let i = index">
+                        <td data-label="Sl. No.">{{ i + 1 }}</td>
+                        <td data-label="Vehicle Name">{{ a.vehicle_name || 'NA'}}</td>
+                        <td data-label="Owner Name">{{ a.owner.vehicle_owner_name || 'NA'}}</td>
+                        <td data-label="RTO No.">{{ a.vehicle_rto_no || 'NA'}}</td>
+                        <td data-label="Model">{{ a.vehicle_model || 'NA'}}</td>
+                        <td data-label="Fuel Type">{{ a.vehicle_fuel_type || 'NA'}}</td>
+                        <td data-label="Purchase Date">{{ a.vehicle_purchase_date || 'NA'}}</td>
+                        <td data-label="RC No.">{{ a.vehicle_rc_no || 'NA'}}</td>
+                        <td data-label="FastTag No.">{{ a.vehicle_fastag_no || 'NA'}}</td>
+                        <td data-label="Fitness No.">{{ a.vehicle_fitness_end || 'NA'}}</td>
+                        <td data-label="Chassis No.">{{ a.vehicle_chassis_no || 'NA'}}</td>
+                        <td data-label="Engine No.">{{ a.vehicle_engine_no || 'NA'}}</td>
+                        <td class="demo" data-label="Receipt Download">
+                            <a
+                                [href]="a.vehicle_rc_file ? fileurl + '/' + a.vehicle_rc_file : 'https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png'"
+                                target="_blank"
+                                [attr.download]="a.vehicle_rc_file ? fileurl + '/' + a.vehicle_rc_file : null" >
+                                <button id="icon" class="btn btn-primary btn-xs">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Display this div when there is no data -->
+            <div *ngIf="vehicle.length === 0" class="text-danger text-center">
+                No vehicles  available for the selected criteria.
+            </div>
+           </div>
+        </div>
+    </div>
+  </div>
+
+</div>

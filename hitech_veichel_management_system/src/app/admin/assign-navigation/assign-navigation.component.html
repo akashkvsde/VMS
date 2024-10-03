@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="row mt-2">
+        <h6 class="mt-2" style="color:#274472">Assign <span class="text-danger" style="cursor: pointer;" (click)="allPages()">Navigation</span> / Assign <span class="text-danger" style="cursor: pointer;" (click)="delpages()">Pages</span></h6>
+        <div class="col d-md-flex mb-3 gap-3">
+            <select type="text" class="form-control input my" #role [(ngModel)]="selectedRole" (ngModelChange)="onRoleChange($event)">
+              <option value="0">---Select role--</option>
+              <option *ngFor="let role of getuserRole" [ngValue]="role.role_id">{{ role.role_name }}</option>
+            </select>
+          </div>
+    </div>
+  
+    <div class="row mt-2 mb-4" style="color:#274472;border:2px solid #274472;"  [hidden]="alllnav">
+      <p class="fw-bolder text-center"><span style="color: #274472 ;">ALL</span><span class="ms-2 text-danger">NAVIGATIONS</span></p>
+        <div class="col p-3">
+            <div class="table-responsive">
+                <table id="example" class="table">
+                  <thead>
+                    <tr>
+                        <th>Sl_no</th>
+                        <th>Nav_name</th>
+                        <th>Assign <input type="checkbox" (change)="bulk($event)"></th>
+                    </tr>
+                </thead>
+                <tbody>
+  
+                  <tr *ngFor="let row of geNavPage">
+                   <td>{{row.nav_id
+  
+                }}</td>
+                    <td>{{ row.nav_name
+                    }}</td>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                  [ngModel]="isSelected(row.nav_id
+  
+                  )"
+                  (ngModelChange)="toggleRowSelection(row.nav_id
+  
+                  )" [checked]="checks">
+                  </tr>
+               
+              </tbody>
+              <tfoot>
+              </tfoot>
+                </table>
+               
+              </div>
+        </div>
+        <div class="mb-2 text-end">
+            <button class="btn btn-primary" (click)="takeArray(selectedRole)">Assign</button>
+        </div>
+    </div>
+  </div>
+  
+  
+  
+  <div class="container" [hidden]="delnav">
+  
+    <div class="row mt-3">
+        <div class="col p-2">
+            <h6 class="p-2 text-center"  style="color:#274472;">Assign Nav <span class="text-danger">Details</span></h6>
+            <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                        <th>Sl_no</th>
+                        <th>Page _id</th>
+                        <th>Page name</th>
+                        <th>Action &nbsp;</th> <!---<button class="btn" (click)="removeAll(selectedRole)"><i class="fa-solid fa-trash text-danger"></i></button>-->
+                    </tr>
+                 </thead>
+                 <tbody>
+                  <tr  *ngFor="let data of fetchAssignrole,let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.nav_id}}</td>
+                    <td>{{data.nav_name}}</td>
+                    <td><button class="btn" (click)="deletRole(data.assign_nav_id)"><i class="fa-solid fa-trash text-danger"></i></button></td>
+                  </tr>
+              </tbody>
+     
+                </table>
+                <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+              </div>
+        </div>
+    </div>
+  
+  </div>
+  
+  

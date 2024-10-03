@@ -1,0 +1,16 @@
+@media(max-width:400px)
+{
+    .fa-arrow-left,
+    .fa-arrow-right{
+     font-size: 12px;
+    }
+
+    
+}
+
+.sidebar{
+    position: fixed;
+}
+
+
+  

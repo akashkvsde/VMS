@@ -1,0 +1,59 @@
+<section>
+  <div class="container">
+    <!----------login row------------>
+    <div class="row">
+      <div class="col">
+        <!-- Login 2 - Bootstrap Brain Component -->
+        <div class="py-3 py-md-5">
+          <div class="container">
+            <div class="row justify-content-md-center">
+              <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
+                <div class="p-4 p-md-5 rounded shadow-sm" style="background:linear-gradient(to right, #221862 0%, #7355a2 100%);">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="mb-5 sx">
+                        <h3 class="text-center" style="font-weight: 600; color: aquamarine;">Vehicle Management System</h3>
+                        <h4 class="text-white text-center" style="font-weight: 600; font-size: 18px;">Hi-Tech Medical College & Hospital</h4>
+                      </div>
+                    </div>
+                  </div>
+                  <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+                    <div class="col-12">
+                      <label for="email" class="form-label text-white">UserId <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" formControlName="login_id" placeholder="Enter employeeID" required>
+                    </div>
+                    <div class="col-12">
+                      <label for="password" class="form-label text-white">Password <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input [type]="passwordFieldType" class="form-control" formControlName="user_password" placeholder="Enter password" required>
+                        <button class="btn btn-outline-secondary text-secondary" style="background-color: honeydew;" type="button" (click)="togglePasswordVisibility()">
+                          <i class="fas fa-eye{{ showPassword ? '-slash' : '' }}"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                      <div class="d-grid">
+                        <button class="btn btn-md" type="submit" style="background-color:honeydew; font-weight:600;">Login</button>
+                      </div>
+                    </div>
+                  </form>
+
+    
+                </div>
+              </div>
+            </div>
+             <!-- Vehicle animation below the form -->
+             
+            </div>
+          </div>
+        
+      </div>
+
+    </div>
+
+
+  </div>
+  <div class="vehicle-container">
+    <img src="assets/img/110-1103741_ambulance-transparent-images-ambulance-png-png-download-removebg-preview.png" alt="Moving Vehicle" class="moving-vehicle">
+  </div>
+</section>

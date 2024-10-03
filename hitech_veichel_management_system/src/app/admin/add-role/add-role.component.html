@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+            <h6 class="mt-4 text-blue" style="font-weight: 600;">ADD ROLE</h6>
+       
+        </div>
+    </div>
+
+<div class="card p-2">
+<form #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm)" novalidate>
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="form-group d-flex">
+                <label for="exampleInputEmail1">Role Name</label>              
+                <input type="text" class="form-control me-4" placeholder="Enter Role" style="max-width: 400px;" [(ngModel)]="addRole.role_name " name="role_name" required>
+                <div *ngIf="roleForm.submitted && !addRole.role_name " class="text-danger">Role required</div>
+              </div>
+        </div>
+
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </div>
+  
+    
+  </form>
+</div>
+
+<div class="container">
+    <h6 class="mt-4 text-blue" style="font-weight: 600;">VIEW ROLES</h6>
+  
+    <div class="card">
+      <div class="row mt-2">
+        <div class="col">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sl. No.</th>
+                  <th>Role Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let role of roles; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ role.role_name }}</td>
+                  <td>
+                    <button class="btn btn-primary" (click)="openModal(role)"><i class="fas fa-edit"></i> </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Modal -->
+    <div class="modal fade" tabindex="-1" [ngClass]="{'show d-block': isModalOpen}" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Role</h5>
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="rolesForm" (ngSubmit)="onUpdate()">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="role_name">Role Name</label>
+                <input type="text" id="role_name" class="form-control" formControlName="role_name" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>

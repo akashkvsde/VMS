@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="col">
+      <h6 class="mt-4 text-blue" style="font-weight: 600;">
+        <b><span class="text-primary">INSURANCE </span></b>
+        <b><span class="text-danger">REPORT</span></b>
+      </h6>
+    </div>
+  </div>
+
+  <div class="row mt-2 vehicle">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="roleSelect">Select Vehicle</label>
+        <select class="form-select form-control"  #insu (change)="getInsurance(insu.value)">
+          <option value="" disabled selected>Select a vehicle</option>
+          <option *ngFor="let vehi of vehicles" [value]="vehi.vehicle_id">{{vehi.vehicle_name}} - {{vehi.vehicle_rto_no}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm printcsv xp mt-5" align="right">
+    <a (click)="printDiv()" id="icon"><i class="fas fa-print"></i></a>
+    <!-- <a> <i class="fas fa-file-excel"></i></a> -->
+  </div>
+
+  <div class="card p-2 mt-2">
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive table-responsive-stack">
+          <!-- Show table if data is available -->
+          <table class="table" style="font-size: small;" *ngIf="data.length > 0">
+            <thead>
+              <tr>
+                <th>Sl. No.</th>
+                <th>Vehicle Name</th>
+                <th>Vehicle No.</th>
+                <th>Insurance Agent Name</th>
+                <th>Insurance No.</th>
+                <th>Mobile Number</th>
+                <th> Insurance Start Date</th>
+                <th> Insurance End Date</th>
+                <th class="demo">Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let insurance of paginatedData; let i = index">
+                <td data-label="Sl. No.">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td data-label="Vehicle Name">{{ insurance.vehicle.vehicle_name }}</td>
+                <td data-label="Vehicle No.">{{ insurance.vehicle.vehicle_rto_no }}</td>
+                <td data-label="Insurance Agent">{{ insurance.vehicle_insurance_agent_name }}</td>
+                <td data-label="Insurance No.">{{ insurance.vehicle_insurance_no }}</td>
+                <td data-label="Mobile Number">{{ insurance.vehicle_insurance_agent_mobile_no }}</td>
+                <td data-label="Start Date">{{ insurance.vehicle_insurance_start_date }}</td>
+                <td data-label="End Date">{{ insurance.vehicle_insurance_end_date }}</td>
+                <td class="demo" data-label="Receipt Download">
+                  <a
+                    [href]="insurance.vehicle_insurance_file ? fileurl + '/' + insurance.vehicle_insurance_file : 'https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png'"
+                    target="_blank"
+                    [attr.download]="insurance.vehicle_insurance_file ? fileurl + '/' + insurance.vehicle_insurance_file : null"
+                  >
+                    <button id="icon" class="btn btn-primary btn-xs">
+                      <i class="fas fa-download"></i>
+                    </button>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="data.length === 0 && noDataMessage" class="text-danger text-center">{{ noDataMessage }}</div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div *ngIf="data.length > itemsPerPage" class="pagination-controls d-flex justify-content-end mt-3">
+          <button class="btn btn-sm btn-link me-2" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+          <button class="btn btn-sm btn-link" (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= data.length">Next</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

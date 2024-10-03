@@ -1,0 +1,106 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col">
+           <h6 class="mt-4 text-dark" style="font-weight: 600;">VEHICLE MAINTENANCE <span class="text-danger">(DRIVER)</span></h6>
+        </div>
+    </div>
+  
+    <div class="row justify-content-center xp mt-2" >
+        <div class="col-md-12">
+            <div class="card p-5">
+                <div class="row">
+                  <div class="col-md-3">
+                        <div class="form-group d-flex">
+                            <label for="exampleInputEmail1">Start Date:</label>
+                            <input type="date" class="form-control me-4" style="max-width: 400px; margin-left: 10px;" #startDate (change)="onDateChange(startDate.value)">
+                          </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+  
+    </div>
+  
+    <div class="row mt-2">
+        <div class="col">
+            <div class="table-responsive table-responsive-stack">
+                <table class="table">
+                    <thead *ngIf="!message">
+                        <tr>
+                            <th>Sl. No.</th>
+                            <th>Start Date</th>
+                            <th>Manager Name</th>
+                            <th>Driver Name</th>
+                            <th>Veicle Name</th>
+                            <th>Veicle No</th>
+                            <th>Service center Name</th>
+                            <th>Service center Location</th>
+                            <th>Service center Contact Person</th>
+                            <th>Contact No</th>
+                            <!-- <th>Action</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of veicle_moment_fetch_data ; let i = index">
+                            <td data-label="Sl. No.">{{i+1}}</td>
+                            <td data-label="Vehicle Name">{{data.maintenance_start_date}}</td>
+                            <td data-label="manager Name.">{{data.manager.user_name}}</td>
+                            <td data-label="Driver Name.">{{data.driver.user_name}}</td>
+                            <td data-label="Driver Name.">{{data.vehicle.vehicle_name}}</td>
+                            <td data-label="Driver Name.">{{data.vehicle.vehicle_name}}</td>
+                            <td data-label="Driver">{{data.garage.garage_name}}</td>
+                            <td data-label="Manager">{{data.garage.location}}</td>
+                            <td data-label="Authority">{{data.garage.contact_person}}</td>
+                            <td data-label="Start Date">{{data.garage.contact_no}}</td>
+                            <!-- <td data-label="Action"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit"></i></button></td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  
+   
+    <h5 class="d-flex align-item-center justify-content-center">{{message}} </h5>
+  </div>
+  
+  <!---modl-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="">
+          <div class="modal-body">
+            
+            <!-- Start KM Reading -->
+            <div class="container mt-3">
+              <h6>Start KM Reading</h6>
+              <div class="d-flex">
+                <input type="number" class="form-control me-2" placeholder="Start KM Reading" #stkm>
+                <button class="btn btn-primary" (click)="stKmreadingUpdata(stkm.value)" [disabled]="st_btn">Save</button>
+              </div>
+            </div>
+            
+            <!-- End KM Reading -->
+            <div class="container mt-3">
+              <h6>End KM Reading</h6>
+              <div class="d-flex">
+                <input type="number" class="form-control me-2" placeholder="End KM Reading" #endkm>
+                <button class="btn btn-primary" (click)="endKmReading(endkm.value)" [disabled]="ed_btn">Save</button>
+              </div>
+            </div>
+              
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
